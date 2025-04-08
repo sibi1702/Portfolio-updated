@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 const ScrollIndicator: React.FC = () => {
   return (
     <motion.div
-      className="absolute bottom-6 md:bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center w-full max-w-[120px] mx-auto z-10"
+      className="absolute bottom-6 md:bottom-8 left-1/2 transform -translate-x-1/2 hidden md:flex flex-col items-center w-full max-w-[120px] mx-auto z-10"
       initial={{ opacity: 0, y: -10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 1.5, duration: 0.5 }}
