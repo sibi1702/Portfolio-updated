@@ -279,17 +279,19 @@ const Timeline: React.FC = () => {
                       viewport={{ once: true }}
                       transition={{ duration: 0.5, delay: 0.2 }}
                     >
-                      <div className="text-center mb-2">
-                        <span className="px-3 py-1 text-sm bg-white/20 backdrop-blur-sm rounded-full text-white inline-block font-medium">
-                          {educationData[1].period}
-                        </span>
-                      </div>
-                      <div className="text-white">
-                        <h4 className="text-xl font-bold mb-2">
-                        {educationData[1].institution}
-                      </h4>
-                        <p className="text-white/80 mb-1">{educationData[1].degree}</p>
-                        <p className="text-gray-400">{educationData[1].gpa}</p>
+                      <div
+                        className="backdrop-blur-lg bg-white/20 border-2 border-white/30 rounded-xl p-4 sm:p-5 shadow-xl hover:shadow-[0_0_30px_rgba(255,255,255,0.4)] hover:bg-white/30 transition-all duration-300 transform hover:scale-105 min-h-[180px] sm:min-h-[200px]"
+                      >
+                        <h4 className="text-lg sm:text-xl font-bold text-white mb-2 text-center">
+                          {educationData[1].institution}
+                        </h4>
+                        <p className="text-white/80 mb-1 text-sm sm:text-base text-center">{educationData[1].degree}</p>
+                        <p className="text-gray-400 mb-3 text-xs sm:text-sm text-center">{educationData[1].gpa}</p>
+                        <div className="flex justify-center">
+                          <div className="px-2 py-1 sm:px-3 sm:py-1 bg-white/20 backdrop-blur-sm rounded-full text-white inline-block text-xs sm:text-sm font-medium">
+                            {educationData[1].period}
+                          </div>
+                        </div>
                       </div>
                     </motion.div>
                   </div>

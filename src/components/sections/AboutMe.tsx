@@ -40,16 +40,16 @@ const AboutMe: React.FC = () => {
             </div>
 
             <div className="text-white text-center md:text-left">
-              <div className="mb-6 md:mb-4">
+              <div className="mb-8 md:mb-6">
                 <a
                   href="https://drive.google.com/file/d/1jdolG9C_7S-MwJB-V5l-eocR8jkNIdxE/view?usp=sharing"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-6 py-3 bg-white/40 text-white rounded-full text-lg font-bold backdrop-blur-sm shadow-xl hover:bg-white/50 transition-all duration-200 hover:scale-105 border-2 border-white/60 inline-flex items-center gap-4 min-w-[140px] justify-center"
+                  style={{ display: 'inline-flex', alignItems: 'center', gap: '12px', minWidth: '160px', justifyContent: 'center', padding: '12px 24px', backgroundColor: 'rgba(255, 255, 255, 0.5)', color: 'white', borderRadius: '9999px', fontSize: '20px', fontWeight: 'bold', backdropFilter: 'blur(8px)', boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.2)', border: '2px solid rgba(255, 255, 255, 0.7)' }}
                   aria-label="View Resume on Google Drive"
                 >
-                  <i className="fas fa-file-alt text-xl"></i>
-                  <span className="whitespace-nowrap font-bold">Resume</span>
+                  <i className="fas fa-file-alt" style={{ fontSize: '24px' }}></i>
+                  <span style={{ whiteSpace: 'nowrap', fontWeight: 'bold', letterSpacing: '0.5px' }}>Resume</span>
                 </a>
               </div>
               <p className="mb-4 text-gray-200 text-sm md:text-base leading-relaxed">
