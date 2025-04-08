@@ -66,6 +66,18 @@ const RealisticStation = () => {
     setFallbackLoadError(true);
   });
 
+  // Set a timeout to switch to fallback model after 25 seconds
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      if (!modelLoaded && !usingFallback) {
+        console.log('Primary model loading timeout (25s) exceeded, switching to fallback');
+        setUsingFallback(true);
+      }
+    }, 25000); // 25 seconds timeout
+
+    return () => clearTimeout(timeoutId);
+  }, [modelLoaded, usingFallback]);
+
   // Track when the primary model is loaded
   useEffect(() => {
     if (primaryScene && !primaryLoadError) {
@@ -146,7 +158,7 @@ const RealisticStation = () => {
       return (
         <primitive
           object={fallbackScene}
-          scale={[1.5, 1.5, 1.5]}
+          scale={[2.5, 2.5, 2.5]}
           position={[0, 0, 0]}
           rotation={[0, Math.PI / 4, 0]}
         />
