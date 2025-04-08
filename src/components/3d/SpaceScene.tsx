@@ -35,7 +35,7 @@ const FallbackScene = ({ error }: { error: Error }) => (
 );
 
 const SpaceScene = () => {
-  console.log('SpaceScene rendering with local model');
+  console.log('SpaceScene rendering with S3 model');
 
   return (
     <div className="w-full h-full min-h-[400px] md:min-h-[500px] lg:min-h-[600px] xl:min-h-[700px] relative">
