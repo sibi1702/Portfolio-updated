@@ -113,23 +113,23 @@ const Timeline: React.FC = () => {
                       className="mb-6"
                     >
                       <div
-                        className="backdrop-blur-lg bg-white/10 border border-white/20 rounded-xl p-4 shadow-lg hover:shadow-[0_0_30px_rgba(255,255,255,0.3)] hover:bg-white/20 transition-all duration-300 transform hover:scale-105 cursor-pointer h-48"
+                        className="backdrop-blur-lg bg-white/10 border border-white/20 rounded-xl p-3 sm:p-4 shadow-lg hover:shadow-[0_0_30px_rgba(255,255,255,0.3)] hover:bg-white/20 transition-all duration-300 transform hover:scale-105 cursor-pointer h-40 sm:h-48"
                         onClick={() => openModal(`exp-${experienceData[0].id}`)}
                         role="button"
                         tabIndex={0}
                         onKeyDown={(e) => e.key === 'Enter' && openModal(`exp-${experienceData[0].id}`)}
                       >
 
-                        <h4 className="text-xl font-bold text-white mb-1">
+                        <h4 className="text-lg sm:text-xl font-bold text-white mb-1">
                           {experienceData[0].company}
                         </h4>
                         <div className="mb-2">
-                          <p className="text-white/80">
+                          <p className="text-white/80 text-sm sm:text-base">
                             {experienceData[0].role}
-                            {experienceData[0].duration && <span className="ml-2 text-sm text-gray-400">({experienceData[0].duration})</span>}
+                            {experienceData[0].duration && <span className="ml-2 text-xs sm:text-sm text-gray-400">({experienceData[0].duration})</span>}
                           </p>
                         </div>
-                        <div className="px-3 py-1 bg-white/20 backdrop-blur-sm rounded-full text-white inline-block text-sm font-medium">
+                        <div className="px-2 py-1 sm:px-3 sm:py-1 bg-white/20 backdrop-blur-sm rounded-full text-white inline-block text-xs sm:text-sm font-medium">
                           {experienceData[0].period}
                         </div>
                       </div>
@@ -143,19 +143,15 @@ const Timeline: React.FC = () => {
                       transition={{ duration: 0.5, delay: 0.2 }}
                     >
                       <div
-                        className="backdrop-blur-lg bg-white/10 border border-white/20 rounded-xl p-4 shadow-lg hover:shadow-[0_0_30px_rgba(255,255,255,0.3)] hover:bg-white/20 transition-all duration-300 transform hover:scale-105 cursor-pointer h-48"
-                        onClick={() => openModal(`edu-${educationData[0].id}`)}
-                        role="button"
-                        tabIndex={0}
-                        onKeyDown={(e) => e.key === 'Enter' && openModal(`edu-${educationData[0].id}`)}
+                        className="backdrop-blur-lg bg-white/10 border border-white/20 rounded-xl p-3 sm:p-4 shadow-lg hover:shadow-[0_0_30px_rgba(255,255,255,0.3)] hover:bg-white/20 transition-all duration-300 transform hover:scale-105 h-40 sm:h-48"
                       >
 
-                        <h4 className="text-xl font-bold text-white mb-2">
+                        <h4 className="text-lg sm:text-xl font-bold text-white mb-2">
                           {educationData[0].institution}
                         </h4>
-                        <p className="text-purple-300 mb-1">{educationData[0].degree}</p>
-                        <p className="text-gray-400 mb-3">{educationData[0].gpa}</p>
-                        <div className="px-3 py-1 bg-purple-500/20 backdrop-blur-sm rounded-full text-white inline-block text-sm font-medium">
+                        <p className="text-purple-300 mb-1 text-sm sm:text-base">{educationData[0].degree}</p>
+                        <p className="text-gray-400 mb-3 text-xs sm:text-sm">{educationData[0].gpa}</p>
+                        <div className="px-2 py-1 sm:px-3 sm:py-1 bg-purple-500/20 backdrop-blur-sm rounded-full text-white inline-block text-xs sm:text-sm font-medium">
                           {educationData[0].period}
                         </div>
                       </div>
@@ -211,11 +207,7 @@ const Timeline: React.FC = () => {
                       transition={{ duration: 0.5 }}
                     >
                       <div
-                        className="backdrop-blur-lg bg-white/10 border border-white/20 rounded-xl p-4 shadow-lg hover:shadow-[0_0_30px_rgba(255,255,255,0.3)] hover:bg-white/20 transition-all duration-300 transform hover:scale-105 cursor-pointer h-48"
-                        onClick={() => openModal(`edu-${educationData[0].id}`)}
-                        role="button"
-                        tabIndex={0}
-                        onKeyDown={(e) => e.key === 'Enter' && openModal(`edu-${educationData[0].id}`)}
+                        className="backdrop-blur-lg bg-white/10 border border-white/20 rounded-xl p-4 shadow-lg hover:shadow-[0_0_30px_rgba(255,255,255,0.3)] hover:bg-white/20 transition-all duration-300 transform hover:scale-105 h-48"
                       >
 
                         <h4 className="text-xl font-bold text-white mb-2">
@@ -293,10 +285,7 @@ const Timeline: React.FC = () => {
                         </span>
                       </div>
                       <div className="text-white">
-                        <h4
-                        className="text-xl font-bold mb-2 cursor-pointer hover:text-white/80 transition-colors"
-                        onClick={() => openModal(`edu-${educationData[1].id}`)}
-                      >
+                        <h4 className="text-xl font-bold mb-2">
                         {educationData[1].institution}
                       </h4>
                         <p className="text-white/80 mb-1">{educationData[1].degree}</p>
@@ -354,11 +343,7 @@ const Timeline: React.FC = () => {
                       transition={{ duration: 0.5 }}
                     >
                       <div
-                        className="backdrop-blur-lg bg-white/10 border border-white/20 rounded-xl p-4 shadow-lg hover:shadow-[0_0_30px_rgba(255,255,255,0.3)] hover:bg-white/20 transition-all duration-300 transform hover:scale-105 cursor-pointer h-48"
-                        onClick={() => openModal(`edu-${educationData[1].id}`)}
-                        role="button"
-                        tabIndex={0}
-                        onKeyDown={(e) => e.key === 'Enter' && openModal(`edu-${educationData[1].id}`)}
+                        className="backdrop-blur-lg bg-white/10 border border-white/20 rounded-xl p-4 shadow-lg hover:shadow-[0_0_30px_rgba(255,255,255,0.3)] hover:bg-white/20 transition-all duration-300 transform hover:scale-105 h-48"
                       >
 
                         <h4 className="text-xl font-bold text-white mb-2">
@@ -619,47 +604,7 @@ const Timeline: React.FC = () => {
         </Modal>
       ))}
 
-      {/* Education Modals */}
-      {educationData.map((edu) => (
-        <Modal
-          key={`modal-edu-${edu.id}`}
-          isOpen={activeModal === `edu-${edu.id}`}
-          onClose={closeModal}
-          title={edu.institution}
-        >
-          <div className="space-y-4">
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-2">
-              <div>
-                <p className="text-white/80 text-lg font-medium">{edu.degree}</p>
-                <p className="text-gray-400">{edu.gpa}</p>
-              </div>
-              <div className="px-3 py-1 bg-white/20 backdrop-blur-sm rounded-full text-white inline-block font-medium self-start">
-                {edu.period}
-              </div>
-            </div>
-
-            <div className="mt-4">
-              <h3 className="text-lg font-semibold text-white mb-2">Courses:</h3>
-              <ul className="list-disc list-inside space-y-2 text-gray-300">
-                <li>Advanced Algorithms and Data Structures</li>
-                <li>Machine Learning and Artificial Intelligence</li>
-                <li>Cloud Computing and Distributed Systems</li>
-                <li>Web Development and Application Architecture</li>
-                <li>Database Management Systems</li>
-              </ul>
-            </div>
-
-            <div className="mt-4">
-              <h3 className="text-lg font-semibold text-white mb-2">Achievements:</h3>
-              <ul className="list-disc list-inside space-y-2 text-gray-300">
-                <li>Dean's List for Academic Excellence</li>
-                <li>Participated in ACM Programming Contest</li>
-                <li>Completed capstone project on AI-driven recommendation systems</li>
-              </ul>
-            </div>
-          </div>
-        </Modal>
-      ))}
+      {/* Education Modals Removed */}
     </section>
   );
 };

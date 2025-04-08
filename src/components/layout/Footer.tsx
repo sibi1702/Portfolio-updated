@@ -40,7 +40,7 @@ const Footer = () => {
         </div>
 
         <div className="mt-8 pt-6 border-t border-white/10 text-center text-gray-400">
-          <p>© {new Date().getFullYear()} Sibi Chandrasekar. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} Sibi Chandra Sekar. All rights reserved.</p>
         </div>
       </div>
     </motion.footer>

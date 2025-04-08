@@ -116,30 +116,27 @@ const Projects: React.FC = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
             >
-              <div
-                className="backdrop-blur-lg bg-white/10 border border-white/20 rounded-xl p-6 shadow-lg hover:shadow-[0_0_30px_rgba(255,255,255,0.3)] hover:bg-white/20 transition-all duration-300 transform hover:scale-105 cursor-pointer h-80 flex flex-col"
+              <button
+                className="backdrop-blur-lg bg-white/10 border border-white/20 rounded-xl p-4 sm:p-6 shadow-lg hover:shadow-[0_0_30px_rgba(255,255,255,0.3)] hover:bg-white/20 transition-all duration-300 transform hover:scale-105 cursor-pointer h-72 sm:h-80 flex flex-col text-left w-full"
                 onClick={() => openModal(`project-${project.id}`)}
-                role="button"
-                tabIndex={0}
-                onKeyDown={(e) => e.key === 'Enter' && openModal(`project-${project.id}`)}
               >
 
-                <h3 className="text-xl font-bold text-white mb-2">
+                <h3 className="text-lg sm:text-xl font-bold text-white mb-2">
                   {project.title}
                 </h3>
 
-                <div className="text-gray-300 mb-4 flex-grow overflow-hidden">
-                  {project.description[0].length > 150
-                    ? `${project.description[0].substring(0, 150)}...`
+                <div className="text-gray-300 mb-4 flex-grow overflow-hidden text-sm sm:text-base">
+                  {project.description[0].length > 120
+                    ? `${project.description[0].substring(0, 120)}...`
                     : project.description[0]}
                 </div>
 
                 <div className="mt-auto">
-                  <div className="px-3 py-1 bg-white/20 backdrop-blur-sm rounded-full text-white inline-block text-sm font-medium">
+                  <div className="px-2 py-1 sm:px-3 sm:py-1 bg-white/20 backdrop-blur-sm rounded-full text-white inline-block text-xs sm:text-sm font-medium">
                     {project.period}
                   </div>
                 </div>
-              </div>
+              </button>
             </motion.div>
           ))}
         </motion.div>

@@ -78,10 +78,10 @@ const Skills: React.FC = () => {
             <motion.div
               key={skill.name}
               variants={item}
-              className="backdrop-blur-lg bg-white/10 border border-white/20 rounded-xl p-4 shadow-lg hover:shadow-[0_0_30px_rgba(124,58,237,0.3)] hover:bg-white/20 transition-all duration-300 transform hover:scale-110 w-28 h-28 flex flex-col items-center justify-center"
+              className="backdrop-blur-lg bg-white/10 border border-white/20 rounded-xl p-3 sm:p-4 shadow-lg hover:shadow-[0_0_30px_rgba(124,58,237,0.3)] hover:bg-white/20 transition-all duration-300 transform hover:scale-110 w-24 h-24 sm:w-28 sm:h-28 flex flex-col items-center justify-center"
             >
-              <i className={`${skill.icon} colored text-4xl mb-2`}></i>
-              <span className="text-sm text-center text-white font-medium mt-1">{skill.name}</span>
+              <i className={`${skill.icon} colored text-3xl sm:text-4xl mb-1 sm:mb-2`}></i>
+              <span className="text-xs sm:text-sm text-center text-white font-medium mt-1">{skill.name}</span>
             </motion.div>
           ))}
         </motion.div>
