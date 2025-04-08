@@ -142,12 +142,12 @@ const RealisticStation = () => {
     }
     // If fallback model loaded successfully
     else if (modelLoaded && fallbackScene && usingFallback) {
-      console.log('Rendering fallback model from CDN');
+      console.log('Rendering fallback satellite model from CDN');
       return (
         <primitive
           object={fallbackScene}
-          scale={[0.01, 0.01, 0.01]}
-          position={[0, -1, 0]}
+          scale={[1.5, 1.5, 1.5]}
+          position={[0, 0, 0]}
           rotation={[0, Math.PI / 4, 0]}
         />
       );
