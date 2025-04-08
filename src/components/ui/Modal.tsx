@@ -63,13 +63,13 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children }) => {
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.9, opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="relative w-full max-w-3xl max-h-[90vh] overflow-y-auto backdrop-blur-lg bg-white/10 border border-white/20 rounded-xl p-6 shadow-lg hover:shadow-[0_0_30px_rgba(255,255,255,0.3)]"
+            className="relative w-full max-w-3xl max-h-[80vh] overflow-y-auto backdrop-blur-lg bg-white/10 border border-white/20 rounded-xl p-4 md:p-6 shadow-lg hover:shadow-[0_0_30px_rgba(255,255,255,0.3)] m-2 md:m-0"
           >
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-2xl font-bold text-white">{title}</h2>
+            <div className="flex justify-between items-center mb-3 md:mb-4">
+              <h2 className="text-xl md:text-2xl font-bold text-white pr-2">{title}</h2>
               <button
                 onClick={onClose}
-                className="text-gray-300 hover:text-white transition-colors p-2 hover:bg-white/10 rounded-full"
+                className="text-gray-300 hover:text-white transition-colors p-1.5 md:p-2 hover:bg-white/10 rounded-full flex-shrink-0"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

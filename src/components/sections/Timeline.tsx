@@ -113,7 +113,7 @@ const Timeline: React.FC = () => {
                       className="mb-6"
                     >
                       <div
-                        className="backdrop-blur-lg bg-white/10 border border-white/20 rounded-xl p-3 sm:p-4 shadow-lg hover:shadow-[0_0_30px_rgba(255,255,255,0.3)] hover:bg-white/20 transition-all duration-300 transform hover:scale-105 cursor-pointer h-40 sm:h-48"
+                        className="backdrop-blur-lg bg-white/10 border border-white/20 rounded-xl p-3 sm:p-4 shadow-lg hover:shadow-[0_0_30px_rgba(255,255,255,0.3)] hover:bg-white/20 transition-all duration-300 transform hover:scale-105 cursor-pointer min-h-[160px] sm:min-h-[180px]"
                         onClick={() => openModal(`exp-${experienceData[0].id}`)}
                         role="button"
                         tabIndex={0}
@@ -143,7 +143,7 @@ const Timeline: React.FC = () => {
                       transition={{ duration: 0.5, delay: 0.2 }}
                     >
                       <div
-                        className="backdrop-blur-lg bg-white/10 border border-white/20 rounded-xl p-3 sm:p-4 shadow-lg hover:shadow-[0_0_30px_rgba(255,255,255,0.3)] hover:bg-white/20 transition-all duration-300 transform hover:scale-105 h-40 sm:h-48"
+                        className="backdrop-blur-lg bg-white/10 border border-white/20 rounded-xl p-3 sm:p-4 shadow-lg hover:shadow-[0_0_30px_rgba(255,255,255,0.3)] hover:bg-white/20 transition-all duration-300 transform hover:scale-105 min-h-[160px] sm:min-h-[180px]"
                       >
 
                         <h4 className="text-lg sm:text-xl font-bold text-white mb-2">
@@ -169,7 +169,7 @@ const Timeline: React.FC = () => {
                       transition={{ duration: 0.5 }}
                     >
                       <div
-                        className="backdrop-blur-lg bg-white/10 border border-white/20 rounded-xl p-4 shadow-lg hover:shadow-[0_0_30px_rgba(255,255,255,0.3)] hover:bg-white/20 transition-all duration-300 transform hover:scale-105 text-right cursor-pointer h-48"
+                        className="backdrop-blur-lg bg-white/10 border border-white/20 rounded-xl p-4 shadow-lg hover:shadow-[0_0_30px_rgba(255,255,255,0.3)] hover:bg-white/20 transition-all duration-300 transform hover:scale-105 text-right cursor-pointer min-h-[180px]"
                         onClick={() => openModal(`exp-${experienceData[0].id}`)}
                         role="button"
                         tabIndex={0}
@@ -207,7 +207,7 @@ const Timeline: React.FC = () => {
                       transition={{ duration: 0.5 }}
                     >
                       <div
-                        className="backdrop-blur-lg bg-white/10 border border-white/20 rounded-xl p-4 shadow-lg hover:shadow-[0_0_30px_rgba(255,255,255,0.3)] hover:bg-white/20 transition-all duration-300 transform hover:scale-105 h-48"
+                        className="backdrop-blur-lg bg-white/10 border border-white/20 rounded-xl p-4 shadow-lg hover:shadow-[0_0_30px_rgba(255,255,255,0.3)] hover:bg-white/20 transition-all duration-300 transform hover:scale-105 min-h-[180px]"
                       >
 
                         <h4 className="text-xl font-bold text-white mb-2">
@@ -305,7 +305,7 @@ const Timeline: React.FC = () => {
                       transition={{ duration: 0.5 }}
                     >
                       <div
-                        className="backdrop-blur-lg bg-white/10 border border-white/20 rounded-xl p-4 shadow-lg hover:shadow-[0_0_30px_rgba(255,255,255,0.3)] hover:bg-white/20 transition-all duration-300 transform hover:scale-105 text-right cursor-pointer h-48"
+                        className="backdrop-blur-lg bg-white/10 border border-white/20 rounded-xl p-4 shadow-lg hover:shadow-[0_0_30px_rgba(255,255,255,0.3)] hover:bg-white/20 transition-all duration-300 transform hover:scale-105 text-right cursor-pointer min-h-[180px]"
                         onClick={() => openModal(`exp-${experienceData[1].id}`)}
                         role="button"
                         tabIndex={0}
@@ -419,7 +419,7 @@ const Timeline: React.FC = () => {
                       transition={{ duration: 0.5 }}
                     >
                       <div
-                        className="backdrop-blur-lg bg-white/10 border border-white/20 rounded-xl p-4 shadow-lg hover:shadow-[0_0_30px_rgba(255,255,255,0.3)] hover:bg-white/20 transition-all duration-300 transform hover:scale-105 text-right cursor-pointer h-48"
+                        className="backdrop-blur-lg bg-white/10 border border-white/20 rounded-xl p-4 shadow-lg hover:shadow-[0_0_30px_rgba(255,255,255,0.3)] hover:bg-white/20 transition-all duration-300 transform hover:scale-105 text-right cursor-pointer min-h-[180px]"
                         onClick={() => openModal(`exp-${experienceData[2].id}`)}
                         role="button"
                         tabIndex={0}
@@ -513,7 +513,7 @@ const Timeline: React.FC = () => {
                       transition={{ duration: 0.5 }}
                     >
                       <div
-                        className="backdrop-blur-lg bg-white/10 border border-white/20 rounded-xl p-4 shadow-lg hover:shadow-[0_0_30px_rgba(255,255,255,0.3)] hover:bg-white/20 transition-all duration-300 transform hover:scale-105 text-right cursor-pointer h-48"
+                        className="backdrop-blur-lg bg-white/10 border border-white/20 rounded-xl p-4 shadow-lg hover:shadow-[0_0_30px_rgba(255,255,255,0.3)] hover:bg-white/20 transition-all duration-300 transform hover:scale-105 text-right cursor-pointer min-h-[180px]"
                         onClick={() => openModal(`exp-${experienceData[3].id}`)}
                         role="button"
                         tabIndex={0}
