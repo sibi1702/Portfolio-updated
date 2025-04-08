@@ -1,4 +1,5 @@
 import React from 'react';
+
 import Home from './pages/home';
 import VideoBackground from './components/common/VideoBackground';
 
@@ -10,6 +11,8 @@ const App: React.FC = () => {
       <div className="relative z-20">
         <Home />
       </div>
+
+
     </div>
   );
 };

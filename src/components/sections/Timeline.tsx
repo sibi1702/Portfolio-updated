@@ -151,7 +151,7 @@ const Timeline: React.FC = () => {
                         </h4>
                         <p className="text-purple-300 mb-1 text-sm sm:text-base">{educationData[0].degree}</p>
                         <p className="text-gray-400 mb-3 text-xs sm:text-sm">{educationData[0].gpa}</p>
-                        <div className="px-2 py-1 sm:px-3 sm:py-1 bg-purple-500/20 backdrop-blur-sm rounded-full text-white inline-block text-xs sm:text-sm font-medium">
+                        <div className="px-2 py-1 sm:px-3 sm:py-1 bg-white/20 backdrop-blur-sm rounded-full text-white inline-block text-xs sm:text-sm font-medium">
                           {educationData[0].period}
                         </div>
                       </div>
@@ -185,7 +185,7 @@ const Timeline: React.FC = () => {
                             {experienceData[0].duration && <span className="ml-2 text-sm text-gray-400">({experienceData[0].duration})</span>}
                           </p>
                         </div>
-                        <div className="px-3 py-1 bg-purple-500/20 backdrop-blur-sm rounded-full text-white inline-block text-sm font-medium">
+                        <div className="px-3 py-1 bg-white/20 backdrop-blur-sm rounded-full text-white inline-block text-sm font-medium">
                           {experienceData[0].period}
                         </div>
                       </div>
@@ -237,7 +237,7 @@ const Timeline: React.FC = () => {
                       transition={{ duration: 0.5 }}
                     >
                       <div className="text-center mb-2">
-                        <span className="px-3 py-1 text-sm bg-purple-500/20 backdrop-blur-sm rounded-full text-white inline-block font-medium">
+                        <span className="px-3 py-1 text-sm bg-white/20 backdrop-blur-sm rounded-full text-white inline-block font-medium">
                           {experienceData[1].period}
                         </span>
                       </div>
@@ -280,7 +280,7 @@ const Timeline: React.FC = () => {
                       transition={{ duration: 0.5, delay: 0.2 }}
                     >
                       <div className="text-center mb-2">
-                        <span className="px-3 py-1 text-sm bg-purple-500/20 backdrop-blur-sm rounded-full text-white inline-block font-medium">
+                        <span className="px-3 py-1 text-sm bg-white/20 backdrop-blur-sm rounded-full text-white inline-block font-medium">
                           {educationData[1].period}
                         </span>
                       </div>
@@ -372,7 +372,7 @@ const Timeline: React.FC = () => {
                       transition={{ duration: 0.5 }}
                     >
                       <div className="text-center mb-2">
-                        <span className="px-3 py-1 text-sm bg-purple-500/20 backdrop-blur-sm rounded-full text-white inline-block font-medium">
+                        <span className="px-3 py-1 text-sm bg-white/20 backdrop-blur-sm rounded-full text-white inline-block font-medium">
                           {experienceData[2].period}
                         </span>
                       </div>
@@ -466,7 +466,7 @@ const Timeline: React.FC = () => {
                       transition={{ duration: 0.5 }}
                     >
                       <div className="text-center mb-2">
-                        <span className="px-3 py-1 text-sm bg-purple-500/20 backdrop-blur-sm rounded-full text-white inline-block font-medium">
+                        <span className="px-3 py-1 text-sm bg-white/20 backdrop-blur-sm rounded-full text-white inline-block font-medium">
                           {experienceData[3].period}
                         </span>
                       </div>

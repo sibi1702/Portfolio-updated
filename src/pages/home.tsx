@@ -27,19 +27,17 @@ const Home: React.FC = () => {
           <div className="flex flex-col md:flex-row items-center gap-0">
             {/* Text content */}
             <motion.div
-              className="text-left text-white w-full md:w-2/5 lg:w-1/3 md:pr-4 z-10"
+              className="text-left text-white w-full md:w-2/5 lg:w-1/3 md:pr-4 z-50 relative"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
             >
-              <motion.h1
-                className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-white"
-                initial={{ scale: 0.5 }}
-                animate={{ scale: 1 }}
-                transition={{ duration: 0.5 }}
+              <h1
+                className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-white drop-shadow-lg"
               >
-                Hi, I'm Sibi Chandra Sekar
-              </motion.h1>
+                Hi, I'm <span className="text-white font-extrabold">Sibi Chandra Sekar</span>
+              </h1>
+
               <div className="h-20">
                 <TypewriterText
                   texts={[
@@ -90,7 +88,8 @@ const Home: React.FC = () => {
                 }}
                 className="h-full"
               >
-                <SpaceScene />
+                {/* Original space station model */}
+                <SpaceScene key="original-space-station" />
               </motion.div>
             </motion.div>
           </div>
