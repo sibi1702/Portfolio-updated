@@ -9,9 +9,9 @@ const PRIMARY_MODEL_URL = getS3ModelUrl('SPACE_STATION');
 const FALLBACK_MODEL_URL = getS3ModelUrl('FALLBACK_MODEL');
 
 const FallbackModel = () => {
-  console.log('Rendering fallback model');
+  console.log('Rendering built-in spacecraft fallback model');
   return (
-    <group>
+    <group scale={[1.5, 1.5, 1.5]}> {/* Enlarged by 50% */}
       {/* Main body */}
       <mesh position={[0, 0, 0]}>
         <boxGeometry args={[1, 0.5, 2]} />
@@ -135,30 +135,18 @@ const RealisticStation = () => {
 
   // Determine which model to render
   const renderModel = () => {
-    // If both models failed to load after retries, show the built-in fallback
-    if ((primaryLoadError && fallbackLoadError) || retryCount >= 2) {
-      console.log('Both models failed, showing built-in fallback');
+    // Show the built-in fallback model in most cases
+    if (primaryLoadError || retryCount >= 1 || usingFallback) {
+      console.log('Using built-in spacecraft fallback model');
       return <FallbackModel />;
     }
     // If primary model loaded successfully
-    else if (modelLoaded && primaryScene && !usingFallback) {
+    else if (modelLoaded && primaryScene) {
       console.log('Rendering primary model');
       return (
         <primitive
           object={primaryScene}
           scale={[3.0, 3.0, 3.0]}
-          position={[0, 0, 0]}
-          rotation={[0, Math.PI / 4, 0]}
-        />
-      );
-    }
-    // If fallback model loaded successfully
-    else if (modelLoaded && fallbackScene && usingFallback) {
-      console.log('Rendering fallback satellite model from CDN');
-      return (
-        <primitive
-          object={fallbackScene}
-          scale={[2.5, 2.5, 2.5]}
           position={[0, 0, 0]}
           rotation={[0, Math.PI / 4, 0]}
         />
