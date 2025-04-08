@@ -4,7 +4,9 @@ import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 import { getS3ModelUrl } from '../../config/s3Config';
 
-const S3_MODEL_URL = getS3ModelUrl('SPACE_STATION');
+// Get URLs for both primary and fallback models
+const PRIMARY_MODEL_URL = getS3ModelUrl('SPACE_STATION');
+const FALLBACK_MODEL_URL = getS3ModelUrl('FALLBACK_MODEL');
 
 const FallbackModel = () => {
   console.log('Rendering fallback model');
@@ -43,45 +45,75 @@ const FallbackModel = () => {
 };
 
 const RealisticStation = () => {
-  console.log('RealisticStation rendering with S3 model');
+  console.log('RealisticStation rendering');
   const [modelLoaded, setModelLoaded] = useState(false);
-  const [loadError, setLoadError] = useState(false);
+  const [primaryLoadError, setPrimaryLoadError] = useState(false);
+  const [fallbackLoadError, setFallbackLoadError] = useState(false);
   const [retryCount, setRetryCount] = useState(0);
-  const [s3LoadStartTime] = useState<number>(Date.now());
+  const [usingFallback, setUsingFallback] = useState(false);
+  const [loadStartTime] = useState<number>(Date.now());
   const modelRef = useRef<THREE.Group>(null);
 
-  // Load the model from S3 with error handling
-  const { scene } = useGLTF(S3_MODEL_URL, undefined, undefined, (error) => {
-    console.error('Error loading S3 model:', error);
-    setLoadError(true);
+  // Try to load the primary model first
+  const { scene: primaryScene } = useGLTF(PRIMARY_MODEL_URL, undefined, undefined, (error) => {
+    console.error('Error loading primary model:', error);
+    setPrimaryLoadError(true);
   });
 
-  // Track when the model is loaded
-  useEffect(() => {
-    if (scene) {
-      const loadTime = Date.now() - s3LoadStartTime;
-      console.log(`S3 model loaded successfully in ${loadTime}ms`);
-      setModelLoaded(true);
-      setLoadError(false);
-    }
-  }, [scene, s3LoadStartTime]);
+  // Load the fallback model if the primary fails
+  const { scene: fallbackScene } = useGLTF(FALLBACK_MODEL_URL, undefined, undefined, (error) => {
+    console.error('Error loading fallback model:', error);
+    setFallbackLoadError(true);
+  });
 
-  // Handle errors and retry loading
+  // Track when the primary model is loaded
   useEffect(() => {
-    if (loadError && retryCount < 2) {
+    if (primaryScene && !primaryLoadError) {
+      const loadTime = Date.now() - loadStartTime;
+      console.log(`Primary model loaded successfully in ${loadTime}ms`);
+      setModelLoaded(true);
+      setUsingFallback(false);
+    }
+  }, [primaryScene, primaryLoadError, loadStartTime]);
+
+  // Switch to fallback model if primary fails
+  useEffect(() => {
+    if (primaryLoadError && !usingFallback) {
+      console.log('Primary model failed to load, switching to fallback model');
+      setUsingFallback(true);
+    }
+  }, [primaryLoadError, usingFallback]);
+
+  // Track when the fallback model is loaded
+  useEffect(() => {
+    if (fallbackScene && usingFallback && !fallbackLoadError) {
+      const loadTime = Date.now() - loadStartTime;
+      console.log(`Fallback model loaded successfully in ${loadTime}ms`);
+      setModelLoaded(true);
+    }
+  }, [fallbackScene, usingFallback, fallbackLoadError, loadStartTime]);
+
+  // Handle errors for both models
+  useEffect(() => {
+    if (primaryLoadError && fallbackLoadError && retryCount < 2) {
       const timer = setTimeout(() => {
-        console.log(`Retrying S3 model load (attempt ${retryCount + 1})`);
+        console.log(`Both models failed, retrying (attempt ${retryCount + 1})`);
         setRetryCount(prev => prev + 1);
-        // Force a reload of the model
-        useGLTF.clear(S3_MODEL_URL);
-        // Trigger a re-render
-        setLoadError(false);
-        setTimeout(() => setLoadError(true), 100);
+        // Force a reload of both models
+        useGLTF.clear(PRIMARY_MODEL_URL);
+        useGLTF.clear(FALLBACK_MODEL_URL);
+        // Reset errors to trigger reload
+        setPrimaryLoadError(false);
+        setFallbackLoadError(false);
+        setTimeout(() => {
+          setPrimaryLoadError(true);
+          setFallbackLoadError(true);
+        }, 100);
       }, 2000);
 
       return () => clearTimeout(timer);
     }
-  }, [loadError, retryCount]);
+  }, [primaryLoadError, fallbackLoadError, retryCount]);
 
   useFrame(() => {
     if (modelRef.current) {
@@ -91,14 +123,29 @@ const RealisticStation = () => {
 
   // Determine which model to render
   const renderModel = () => {
-    if (loadError || retryCount >= 2) {
-      // Show fallback model if loading failed
+    // If both models failed to load after retries, show the built-in fallback
+    if ((primaryLoadError && fallbackLoadError) || retryCount >= 2) {
+      console.log('Both models failed, showing built-in fallback');
       return <FallbackModel />;
-    } else if (modelLoaded && scene) {
-      // Show S3 model if loaded successfully
+    }
+    // If primary model loaded successfully
+    else if (modelLoaded && primaryScene && !usingFallback) {
+      console.log('Rendering primary model');
       return (
         <primitive
-          object={scene}
+          object={primaryScene}
+          scale={[3.0, 3.0, 3.0]}
+          position={[0, 0, 0]}
+          rotation={[0, Math.PI / 4, 0]}
+        />
+      );
+    }
+    // If fallback model loaded successfully
+    else if (modelLoaded && fallbackScene && usingFallback) {
+      console.log('Rendering fallback model from CDN');
+      return (
+        <primitive
+          object={fallbackScene}
           scale={[0.01, 0.01, 0.01]}
           position={[0, -1, 0]}
           rotation={[0, Math.PI / 4, 0]}
@@ -113,11 +160,14 @@ const RealisticStation = () => {
 };
 
 try {
-  // Preload S3 model
-  console.log('Preloading S3 model:', S3_MODEL_URL);
-  useGLTF.preload(S3_MODEL_URL);
+  // Preload both models
+  console.log('Preloading primary model:', PRIMARY_MODEL_URL);
+  useGLTF.preload(PRIMARY_MODEL_URL);
+
+  console.log('Preloading fallback model:', FALLBACK_MODEL_URL);
+  useGLTF.preload(FALLBACK_MODEL_URL);
 } catch (error) {
-  console.error('Error preloading S3 model:', error);
+  console.error('Error preloading models:', error);
 }
 
 export default RealisticStation;

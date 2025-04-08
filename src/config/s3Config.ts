@@ -1,8 +1,12 @@
 export const S3_CONFIG = {
-  BUCKET_URL: 'https://cdn.jsdelivr.net',
+  BUCKET_URL: 'https://my-3d-assets.s3.us-east-2.amazonaws.com',
 
   MODEL_URLS: {
-    SPACE_STATION: 'https://cdn.jsdelivr.net/gh/mrdoob/three.js@dev/examples/models/gltf/LittlestTokyo.glb'
+    // Primary model - your spacecraft
+    SPACE_STATION: 'https://my-3d-assets.s3.us-east-2.amazonaws.com/space_station_3.glb',
+
+    // Fallback model from a CDN with proper CORS configuration
+    FALLBACK_MODEL: 'https://cdn.jsdelivr.net/gh/mrdoob/three.js@dev/examples/models/gltf/LittlestTokyo.glb'
   }
 };
 
