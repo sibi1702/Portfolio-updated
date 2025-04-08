@@ -99,9 +99,9 @@ const RealisticStation = () => {
       return (
         <primitive
           object={scene}
-          scale={[0.5, 0.5, 0.5]}
-          position={[0, 0, 0]}
-          rotation={[0, Math.PI / 2, 0]}
+          scale={[0.01, 0.01, 0.01]}
+          position={[0, -1, 0]}
+          rotation={[0, Math.PI / 4, 0]}
         />
       );
     }

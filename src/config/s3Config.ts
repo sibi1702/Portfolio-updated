@@ -1,9 +1,8 @@
 export const S3_CONFIG = {
-  BUCKET_URL: 'https://market-assets.fra1.cdn.digitaloceanspaces.com',
+  BUCKET_URL: 'https://cdn.jsdelivr.net',
 
   MODEL_URLS: {
-    // Using a publicly available 3D model for testing
-    SPACE_STATION: 'https://market-assets.fra1.cdn.digitaloceanspaces.com/market-assets/models/satellite/model.gltf'
+    SPACE_STATION: 'https://cdn.jsdelivr.net/gh/mrdoob/three.js@dev/examples/models/gltf/LittlestTokyo.glb'
   }
 };
 

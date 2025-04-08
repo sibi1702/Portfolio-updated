@@ -42,7 +42,7 @@ const SpaceScene = () => {
       <ErrorBoundary FallbackComponent={FallbackScene}>
         <Suspense fallback={<SceneLoading />}>
           <Canvas
-            camera={{ position: [-5, 2, 15], fov: 40 }}
+            camera={{ position: [10, 5, 10], fov: 50 }}
             style={{ background: 'transparent' }}
             gl={{
               alpha: true,
@@ -66,7 +66,9 @@ const SpaceScene = () => {
 
             {/* Controls */}
             <OrbitControls
-              enableZoom={false}
+              enableZoom={true}
+              minDistance={5}
+              maxDistance={20}
               enablePan={false}
               autoRotate
               autoRotateSpeed={0.5}
