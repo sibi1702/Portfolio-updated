@@ -40,16 +40,16 @@ const AboutMe: React.FC = () => {
             </div>
 
             <div className="text-white text-center md:text-left">
-              <div className="mb-4">
+              <div className="mb-6 md:mb-4">
                 <a
                   href="https://drive.google.com/file/d/1jdolG9C_7S-MwJB-V5l-eocR8jkNIdxE/view?usp=sharing"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-5 py-3 bg-white/30 text-white rounded-full text-base font-bold backdrop-blur-sm shadow-lg hover:bg-white/40 transition-all duration-200 hover:scale-105 border-2 border-white/50 inline-flex items-center gap-3 min-w-[120px] justify-center"
+                  className="px-6 py-3 bg-white/40 text-white rounded-full text-lg font-bold backdrop-blur-sm shadow-xl hover:bg-white/50 transition-all duration-200 hover:scale-105 border-2 border-white/60 inline-flex items-center gap-4 min-w-[140px] justify-center"
                   aria-label="View Resume on Google Drive"
                 >
-                  <i className="fas fa-file-alt text-lg"></i>
-                  <span className="whitespace-nowrap">Resume</span>
+                  <i className="fas fa-file-alt text-xl"></i>
+                  <span className="whitespace-nowrap font-bold">Resume</span>
                 </a>
               </div>
               <p className="mb-4 text-gray-200 text-sm md:text-base leading-relaxed">

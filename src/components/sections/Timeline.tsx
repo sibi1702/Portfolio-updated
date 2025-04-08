@@ -236,39 +236,39 @@ const Timeline: React.FC = () => {
                       viewport={{ once: true }}
                       transition={{ duration: 0.5 }}
                     >
-                      <div className="text-center mb-2">
-                        <span className="px-3 py-1 text-sm bg-white/20 backdrop-blur-sm rounded-full text-white inline-block font-medium">
-                          {experienceData[1].period}
-                        </span>
-                      </div>
-                      <div className="text-white">
-                        <h4
-                        className="text-xl font-bold mb-1 cursor-pointer hover:text-white/80 transition-colors"
+                      <div
+                        className="backdrop-blur-lg bg-white/20 border-2 border-white/30 rounded-xl p-4 sm:p-5 shadow-xl hover:shadow-[0_0_30px_rgba(255,255,255,0.4)] hover:bg-white/30 transition-all duration-300 transform hover:scale-105 min-h-[180px] sm:min-h-[200px]"
                         onClick={() => openModal(`exp-${experienceData[1].id}`)}
+                        role="button"
+                        tabIndex={0}
+                        onKeyDown={(e) => e.key === 'Enter' && openModal(`exp-${experienceData[1].id}`)}
                       >
-                        {experienceData[1].role}
-                      </h4>
-                        <div className="mb-2">
-                          <p className="text-white/80">
-                            {experienceData[1].company}
-                            {experienceData[1].duration && <span className="ml-2 text-sm text-gray-400">({experienceData[1].duration})</span>}
-                          </p>
+                        <div className="text-center mb-2">
+                          <span className="px-3 py-1 text-sm bg-white/30 backdrop-blur-sm rounded-full text-white inline-block font-medium">
+                            {experienceData[1].period}
+                          </span>
                         </div>
-                        {experienceData[1].website && (
-                          <a
-                            href={experienceData[1].website}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-sm text-gray-400 hover:text-white transition-colors mb-2 inline-block"
-                          >
-                            {experienceData[1].website}
-                          </a>
-                        )}
-                        <ul className="list-disc list-inside space-y-1 text-gray-300 text-sm">
-                          {experienceData[1].responsibilities.map((resp, idx) => (
-                            <li key={`resp-${experienceData[1].id}-${idx}`} className="text-sm">{resp}</li>
-                          ))}
-                        </ul>
+                        <div className="text-white">
+                          <h4 className="text-xl font-bold mb-1 text-center">
+                            {experienceData[1].role}
+                          </h4>
+                          <div className="mb-2 text-center">
+                            <p className="text-white/90 font-medium">
+                              {experienceData[1].company}
+                              {experienceData[1].duration && <span className="ml-2 text-sm text-gray-300">({experienceData[1].duration})</span>}
+                            </p>
+                          </div>
+                          {experienceData[1].website && (
+                            <a
+                              href={experienceData[1].website}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-sm text-gray-300 hover:text-white transition-colors mb-2 block text-center"
+                            >
+                              {experienceData[1].website}
+                            </a>
+                          )}
+                        </div>
                       </div>
                     </motion.div>
 
@@ -371,39 +371,39 @@ const Timeline: React.FC = () => {
                       viewport={{ once: true }}
                       transition={{ duration: 0.5 }}
                     >
-                      <div className="text-center mb-2">
-                        <span className="px-3 py-1 text-sm bg-white/20 backdrop-blur-sm rounded-full text-white inline-block font-medium">
-                          {experienceData[2].period}
-                        </span>
-                      </div>
-                      <div className="text-white">
-                        <h4
-                        className="text-xl font-bold mb-1 cursor-pointer hover:text-white/80 transition-colors"
+                      <div
+                        className="backdrop-blur-lg bg-white/20 border-2 border-white/30 rounded-xl p-4 sm:p-5 shadow-xl hover:shadow-[0_0_30px_rgba(255,255,255,0.4)] hover:bg-white/30 transition-all duration-300 transform hover:scale-105 min-h-[180px] sm:min-h-[200px]"
                         onClick={() => openModal(`exp-${experienceData[2].id}`)}
+                        role="button"
+                        tabIndex={0}
+                        onKeyDown={(e) => e.key === 'Enter' && openModal(`exp-${experienceData[2].id}`)}
                       >
-                        {experienceData[2].role}
-                      </h4>
-                        <div className="mb-2">
-                          <p className="text-white/80">
-                            {experienceData[2].company}
-                            {experienceData[2].duration && <span className="ml-2 text-sm text-gray-400">({experienceData[2].duration})</span>}
-                          </p>
+                        <div className="text-center mb-2">
+                          <span className="px-3 py-1 text-sm bg-white/30 backdrop-blur-sm rounded-full text-white inline-block font-medium">
+                            {experienceData[2].period}
+                          </span>
                         </div>
-                        {experienceData[2].website && (
-                          <a
-                            href={experienceData[2].website}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-sm text-gray-400 hover:text-white transition-colors mb-2 inline-block"
-                          >
-                            {experienceData[2].website}
-                          </a>
-                        )}
-                        <ul className="list-disc list-inside space-y-1 text-gray-300 text-sm">
-                          {experienceData[2].responsibilities.map((resp, idx) => (
-                            <li key={`resp-${experienceData[2].id}-${idx}`} className="text-sm">{resp}</li>
-                          ))}
-                        </ul>
+                        <div className="text-white">
+                          <h4 className="text-xl font-bold mb-1 text-center">
+                            {experienceData[2].role}
+                          </h4>
+                          <div className="mb-2 text-center">
+                            <p className="text-white/90 font-medium">
+                              {experienceData[2].company}
+                              {experienceData[2].duration && <span className="ml-2 text-sm text-gray-300">({experienceData[2].duration})</span>}
+                            </p>
+                          </div>
+                          {experienceData[2].website && (
+                            <a
+                              href={experienceData[2].website}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-sm text-gray-300 hover:text-white transition-colors mb-2 block text-center"
+                            >
+                              {experienceData[2].website}
+                            </a>
+                          )}
+                        </div>
                       </div>
                     </motion.div>
                   </div>
@@ -465,39 +465,39 @@ const Timeline: React.FC = () => {
                       viewport={{ once: true }}
                       transition={{ duration: 0.5 }}
                     >
-                      <div className="text-center mb-2">
-                        <span className="px-3 py-1 text-sm bg-white/20 backdrop-blur-sm rounded-full text-white inline-block font-medium">
-                          {experienceData[3].period}
-                        </span>
-                      </div>
-                      <div className="text-white">
-                        <h4
-                        className="text-xl font-bold mb-1 cursor-pointer hover:text-white/80 transition-colors"
+                      <div
+                        className="backdrop-blur-lg bg-white/20 border-2 border-white/30 rounded-xl p-4 sm:p-5 shadow-xl hover:shadow-[0_0_30px_rgba(255,255,255,0.4)] hover:bg-white/30 transition-all duration-300 transform hover:scale-105 min-h-[180px] sm:min-h-[200px]"
                         onClick={() => openModal(`exp-${experienceData[3].id}`)}
+                        role="button"
+                        tabIndex={0}
+                        onKeyDown={(e) => e.key === 'Enter' && openModal(`exp-${experienceData[3].id}`)}
                       >
-                        {experienceData[3].role}
-                      </h4>
-                        <div className="mb-2">
-                          <p className="text-white/80">
-                            {experienceData[3].company}
-                            {experienceData[3].duration && <span className="ml-2 text-sm text-gray-400">({experienceData[3].duration})</span>}
-                          </p>
+                        <div className="text-center mb-2">
+                          <span className="px-3 py-1 text-sm bg-white/30 backdrop-blur-sm rounded-full text-white inline-block font-medium">
+                            {experienceData[3].period}
+                          </span>
                         </div>
-                        {experienceData[3].website && (
-                          <a
-                            href={experienceData[3].website}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-sm text-gray-400 hover:text-white transition-colors mb-2 inline-block"
-                          >
-                            {experienceData[3].website}
-                          </a>
-                        )}
-                        <ul className="list-disc list-inside space-y-1 text-gray-300 text-sm">
-                          {experienceData[3].responsibilities.map((resp, idx) => (
-                            <li key={`resp-${experienceData[3].id}-${idx}`} className="text-sm">{resp}</li>
-                          ))}
-                        </ul>
+                        <div className="text-white">
+                          <h4 className="text-xl font-bold mb-1 text-center">
+                            {experienceData[3].role}
+                          </h4>
+                          <div className="mb-2 text-center">
+                            <p className="text-white/90 font-medium">
+                              {experienceData[3].company}
+                              {experienceData[3].duration && <span className="ml-2 text-sm text-gray-300">({experienceData[3].duration})</span>}
+                            </p>
+                          </div>
+                          {experienceData[3].website && (
+                            <a
+                              href={experienceData[3].website}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-sm text-gray-300 hover:text-white transition-colors mb-2 block text-center"
+                            >
+                              {experienceData[3].website}
+                            </a>
+                          )}
+                        </div>
                       </div>
                     </motion.div>
                   </div>
