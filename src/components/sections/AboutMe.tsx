@@ -41,15 +41,18 @@ const AboutMe: React.FC = () => {
 
             <div className="text-white text-center md:text-left">
               <div className="mb-8 md:mb-6">
+                {/* Button with text directly in HTML */}
                 <a
                   href="https://drive.google.com/file/d/1jdolG9C_7S-MwJB-V5l-eocR8jkNIdxE/view?usp=sharing"
                   target="_blank"
                   rel="noopener noreferrer"
-                  style={{ display: 'inline-flex', alignItems: 'center', gap: '12px', minWidth: '160px', justifyContent: 'center', padding: '12px 24px', backgroundColor: 'rgba(255, 255, 255, 0.5)', color: 'white', borderRadius: '9999px', fontSize: '20px', fontWeight: 'bold', backdropFilter: 'blur(8px)', boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.2)', border: '2px solid rgba(255, 255, 255, 0.7)' }}
+                  className="resume-button"
                   aria-label="View Resume on Google Drive"
                 >
-                  <i className="fas fa-file-alt" style={{ fontSize: '24px' }}></i>
-                  <span style={{ whiteSpace: 'nowrap', fontWeight: 'bold', letterSpacing: '0.5px' }}>Resume</span>
+                  <div className="resume-icon">
+                    <i className="fas fa-file-alt"></i>
+                  </div>
+                  <div className="resume-text">Resume</div>
                 </a>
               </div>
               <p className="mb-4 text-gray-200 text-sm md:text-base leading-relaxed">

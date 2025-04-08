@@ -14,3 +14,37 @@ body {
 .content-blur {
   filter: blur(8px);
 }
+
+/* Resume Button Styles */
+.resume-button {
+  display: inline-flex;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.6);
+  color: white;
+  border-radius: 9999px;
+  padding: 12px 24px;
+  font-size: 20px;
+  font-weight: bold;
+  min-width: 160px;
+  justify-content: center;
+  gap: 12px;
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(8px);
+  transition: all 0.2s ease;
+}
+
+.resume-button:hover {
+  background-color: rgba(255, 255, 255, 0.7);
+  transform: scale(1.05);
+}
+
+.resume-icon {
+  font-size: 24px;
+}
+
+.resume-text {
+  white-space: nowrap;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+}
