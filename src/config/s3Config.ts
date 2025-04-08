@@ -1,8 +1,9 @@
 export const S3_CONFIG = {
-  BUCKET_URL: 'https://my-3d-assets.s3.us-east-2.amazonaws.com',
+  BUCKET_URL: 'https://market-assets.fra1.cdn.digitaloceanspaces.com',
 
   MODEL_URLS: {
-    SPACE_STATION: 'https://my-3d-assets.s3.us-east-2.amazonaws.com/space_station_3.glb'
+    // Using a publicly available 3D model for testing
+    SPACE_STATION: 'https://market-assets.fra1.cdn.digitaloceanspaces.com/market-assets/models/satellite/model.gltf'
   }
 };
 
