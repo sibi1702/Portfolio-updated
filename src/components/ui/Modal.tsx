@@ -11,7 +11,6 @@ interface ModalProps {
 const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children }) => {
   const modalRef = useRef<HTMLDivElement>(null);
 
-  // Close modal when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
@@ -32,7 +31,6 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children }) => {
     };
   }, [isOpen, onClose]);
 
-  // Close modal when pressing Escape key
   useEffect(() => {
     const handleEscKey = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {

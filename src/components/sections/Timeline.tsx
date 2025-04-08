@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import Modal from '../ui/Modal';
 
-// Rest of the file content
 
 const Timeline: React.FC = () => {
   const educationData = [
@@ -68,15 +67,12 @@ const Timeline: React.FC = () => {
     },
   ];
 
-  // State for modals
   const [activeModal, setActiveModal] = useState<string | null>(null);
 
-  // Function to open a specific modal
   const openModal = (id: string) => {
     setActiveModal(id);
   };
 
-  // Function to close the modal
   const closeModal = () => {
     setActiveModal(null);
   };

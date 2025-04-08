@@ -5,7 +5,6 @@ import * as THREE from 'three';
 const TextLogo = () => {
   const groupRef = useRef<THREE.Group>(null);
   
-  // Rotate the group
   useFrame((state) => {
     if (groupRef.current) {
       groupRef.current.rotation.y += 0.01;

@@ -65,20 +65,16 @@ const Projects: React.FC = () => {
     }
   ];
 
-  // State for modals
   const [activeModal, setActiveModal] = useState<string | null>(null);
 
-  // Function to open a specific modal
   const openModal = (id: string) => {
     setActiveModal(id);
   };
 
-  // Function to close the modal
   const closeModal = () => {
     setActiveModal(null);
   };
 
-  // Animation variants
   const container = {
     hidden: { opacity: 0 },
     show: {

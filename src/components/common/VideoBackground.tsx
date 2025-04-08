@@ -5,7 +5,6 @@ const VideoBackground: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
 
-  // Add debugging on component mount
   React.useEffect(() => {
     console.log('VideoBackground mounted');
     console.log('Video path:', '/videos/background.mp4');
