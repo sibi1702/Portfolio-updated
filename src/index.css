@@ -47,4 +47,24 @@ body {
   white-space: nowrap;
   font-weight: bold;
   letter-spacing: 0.5px;
+  color: white;
+}
+
+/* Mobile-specific styles for resume text */
+@media (max-width: 768px) {
+  .resume-button {
+    background-color: rgba(255, 255, 255, 0.8); /* Lighter background for mobile */
+    border: 2px solid rgba(255, 255, 255, 0.9);
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
+  }
+
+  .resume-text {
+    color: #000000; /* Black text for mobile */
+    text-shadow: 0 0 2px rgba(255, 255, 255, 0.5); /* Text shadow for better visibility */
+    font-weight: 900; /* Extra bold on mobile */
+  }
+
+  .resume-icon {
+    color: #000000; /* Black icon for mobile */
+  }
 }
