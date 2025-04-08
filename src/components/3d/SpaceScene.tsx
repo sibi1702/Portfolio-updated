@@ -38,19 +38,20 @@ const SpaceScene = () => {
   console.log('SpaceScene rendering with S3 model');
 
   return (
-    <div className="w-full h-full min-h-[400px] md:min-h-[500px] lg:min-h-[600px] xl:min-h-[700px] relative">
+    <div className="w-full h-full min-h-[300px] md:min-h-[500px] lg:min-h-[600px] xl:min-h-[700px] relative">
       <ErrorBoundary FallbackComponent={FallbackScene}>
         <Suspense fallback={<SceneLoading />}>
+          {/* Using increased FOV and lower resolution for better mobile experience */}
           <Canvas
-            camera={{ position: [10, 5, 10], fov: 50 }}
+            camera={{ position: [10, 5, 10], fov: 60 }}
             style={{ background: 'transparent' }}
             gl={{
               alpha: true,
               antialias: true,
-              powerPreference: 'high-performance',
+              powerPreference: window.innerWidth < 768 ? 'default' : 'high-performance',
               failIfMajorPerformanceCaveat: false
             }}
-            dpr={[1, 2]} // Responsive pixel ratio
+            dpr={window.innerWidth < 768 ? [0.8, 1.5] : [1, 2]}
           >
             {/* Lighting */}
             <ambientLight intensity={0.6} />

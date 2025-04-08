@@ -40,9 +40,9 @@ const Contact: React.FC = () => {
         formElement.appendChild(timeInput);
       }
 
-      const serviceId = 'Portfolio_Contact'; 
-      const templateId = 'template_tuluzph'; 
-      const publicKey = 'ICOkxeyKUsfBRMfFf'; 
+      const serviceId = 'Portfolio_Contact';
+      const templateId = 'template_tuluzph';
+      const publicKey = 'ICOkxeyKUsfBRMfFf';
 
       await emailjs.sendForm(
         serviceId,
@@ -63,18 +63,18 @@ const Contact: React.FC = () => {
   };
 
   return (
-    <section id="contact" className="py-20 bg-transparent min-h-screen md:h-screen flex items-center">
+    <section id="contact" className="py-16 md:py-20 bg-transparent min-h-screen flex items-center">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-12"
+          className="text-center mb-8 md:mb-12"
         >
-          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
+          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-3 md:mb-4">
             Get In Touch
           </h2>
-          <p className="text-lg text-gray-300">
+          <p className="text-base md:text-lg text-gray-300">
             Feel free to reach out for collaborations or just a friendly hello
           </p>
         </motion.div>
@@ -82,13 +82,13 @@ const Contact: React.FC = () => {
         <div className="flex flex-col md:flex-row items-center gap-8">
           {/* Left side - Contact Form */}
           <motion.div
-            className="w-full md:w-1/2 lg:w-2/5"
+            className="w-full md:w-1/2 lg:w-2/5 order-2 md:order-1"
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
           >
-            <div className="backdrop-blur-lg bg-white/10 border border-white/20 rounded-xl p-8 shadow-lg hover:shadow-[0_0_30px_rgba(255,255,255,0.3)] transition-all duration-300">
+            <div className="backdrop-blur-lg bg-white/10 border border-white/20 rounded-xl p-6 md:p-8 shadow-lg hover:shadow-[0_0_30px_rgba(255,255,255,0.3)] transition-all duration-300">
               <form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
                 {submitStatus === 'success' && (
                   <div className="p-4 bg-green-500/20 border border-green-500/30 rounded-lg text-white mb-4">
@@ -172,7 +172,7 @@ const Contact: React.FC = () => {
 
           {/* Right side - Light Bulb Animation */}
           <motion.div
-            className="w-full md:w-1/2 lg:w-3/5 h-[400px] md:h-[600px]"
+            className="w-full md:w-1/2 lg:w-3/5 h-[250px] sm:h-[300px] md:h-[600px] order-1 md:order-2 mb-6 md:mb-0"
             initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
