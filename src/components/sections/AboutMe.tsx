@@ -45,10 +45,10 @@ const AboutMe: React.FC = () => {
                   href="https://drive.google.com/file/d/1jdolG9C_7S-MwJB-V5l-eocR8jkNIdxE/view?usp=sharing"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-4 py-2 bg-white/20 text-white rounded-full text-sm font-medium backdrop-blur-sm shadow-sm hover:bg-white/30 transition-all duration-200 hover:scale-105 border border-white/30 inline-flex items-center gap-2 min-w-[100px] justify-center"
+                  className="px-5 py-3 bg-white/30 text-white rounded-full text-base font-bold backdrop-blur-sm shadow-lg hover:bg-white/40 transition-all duration-200 hover:scale-105 border-2 border-white/50 inline-flex items-center gap-3 min-w-[120px] justify-center"
                   aria-label="View Resume on Google Drive"
                 >
-                  <i className="fas fa-file-alt text-base"></i>
+                  <i className="fas fa-file-alt text-lg"></i>
                   <span className="whitespace-nowrap">Resume</span>
                 </a>
               </div>

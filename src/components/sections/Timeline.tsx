@@ -113,7 +113,7 @@ const Timeline: React.FC = () => {
                       className="mb-6"
                     >
                       <div
-                        className="backdrop-blur-lg bg-white/10 border border-white/20 rounded-xl p-3 sm:p-4 shadow-lg hover:shadow-[0_0_30px_rgba(255,255,255,0.3)] hover:bg-white/20 transition-all duration-300 transform hover:scale-105 cursor-pointer min-h-[160px] sm:min-h-[180px]"
+                        className="backdrop-blur-lg bg-white/20 border-2 border-white/30 rounded-xl p-4 sm:p-5 shadow-xl hover:shadow-[0_0_30px_rgba(255,255,255,0.4)] hover:bg-white/30 transition-all duration-300 transform hover:scale-105 cursor-pointer min-h-[180px] sm:min-h-[200px]"
                         onClick={() => openModal(`exp-${experienceData[0].id}`)}
                         role="button"
                         tabIndex={0}
@@ -143,7 +143,7 @@ const Timeline: React.FC = () => {
                       transition={{ duration: 0.5, delay: 0.2 }}
                     >
                       <div
-                        className="backdrop-blur-lg bg-white/10 border border-white/20 rounded-xl p-3 sm:p-4 shadow-lg hover:shadow-[0_0_30px_rgba(255,255,255,0.3)] hover:bg-white/20 transition-all duration-300 transform hover:scale-105 min-h-[160px] sm:min-h-[180px]"
+                        className="backdrop-blur-lg bg-white/20 border-2 border-white/30 rounded-xl p-4 sm:p-5 shadow-xl hover:shadow-[0_0_30px_rgba(255,255,255,0.4)] hover:bg-white/30 transition-all duration-300 transform hover:scale-105 min-h-[180px] sm:min-h-[200px]"
                       >
 
                         <h4 className="text-lg sm:text-xl font-bold text-white mb-2">
@@ -169,7 +169,7 @@ const Timeline: React.FC = () => {
                       transition={{ duration: 0.5 }}
                     >
                       <div
-                        className="backdrop-blur-lg bg-white/10 border border-white/20 rounded-xl p-4 shadow-lg hover:shadow-[0_0_30px_rgba(255,255,255,0.3)] hover:bg-white/20 transition-all duration-300 transform hover:scale-105 text-right cursor-pointer min-h-[180px]"
+                        className="backdrop-blur-lg bg-white/20 border-2 border-white/30 rounded-xl p-4 sm:p-5 shadow-xl hover:shadow-[0_0_30px_rgba(255,255,255,0.4)] hover:bg-white/30 transition-all duration-300 transform hover:scale-105 text-right cursor-pointer min-h-[180px] sm:min-h-[200px]"
                         onClick={() => openModal(`exp-${experienceData[0].id}`)}
                         role="button"
                         tabIndex={0}
