@@ -11,7 +11,7 @@ const FALLBACK_MODEL_URL = getS3ModelUrl('FALLBACK_MODEL');
 const FallbackModel = () => {
   console.log('Rendering built-in spacecraft fallback model');
   return (
-    <group scale={[1.5, 1.5, 1.5]}> {/* Enlarged by 50% */}
+    <group scale={[2.0, 2.0, 2.0]}> {/* Enlarged by 100% */}
       {/* Main body */}
       <mesh position={[0, 0, 0]}>
         <boxGeometry args={[1, 0.5, 2]} />
@@ -146,7 +146,7 @@ const RealisticStation = () => {
       return (
         <primitive
           object={primaryScene}
-          scale={[3.0, 3.0, 3.0]}
+          scale={[4.0, 4.0, 4.0]}
           position={[0, 0, 0]}
           rotation={[0, Math.PI / 4, 0]}
         />

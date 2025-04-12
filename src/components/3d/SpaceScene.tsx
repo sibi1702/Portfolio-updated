@@ -43,7 +43,7 @@ const SpaceScene = () => {
         <Suspense fallback={<SceneLoading />}>
           {/* Using increased FOV and lower resolution for better mobile experience */}
           <Canvas
-            camera={{ position: [10, 5, 10], fov: 60 }}
+            camera={{ position: [12, 6, 12], fov: 60 }}
             style={{ background: 'transparent' }}
             gl={{
               alpha: true,
