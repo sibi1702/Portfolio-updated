@@ -65,11 +65,9 @@ const SpaceScene = () => {
               <Environment preset="sunset" />
             </Suspense>
 
-            {/* Controls */}
+            {/* Controls - zoom disabled */}
             <OrbitControls
-              enableZoom={true}
-              minDistance={5}
-              maxDistance={20}
+              enableZoom={false}
               enablePan={false}
               autoRotate
               autoRotateSpeed={0.5}
