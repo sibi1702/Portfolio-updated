@@ -62,6 +62,18 @@ const Projects: React.FC = () => {
       ],
       technologies: ['R Programming', 'LCD', 'YOLO', 'Machine Learning', 'Computer Vision'],
       repoUrl: 'https://github.com/sibi1702/autonomous-driving-cv'
+    },
+    {
+      id: 5,
+      title: 'Social Media Advertising Platform',
+      period: 'July 2022 - October 2022',
+      description: [
+        'Integrated APIs for Facebook, Twitter, Instagram, LinkedIn, and YouTube into a unified web portal, enabling simultaneous content posting across multiple social media platforms.',
+        'Developed front-end and established MongoDB connectivity, creating a user-friendly dashboard for managing social media accounts.',
+        'Used NodeJS for handling API requests, routing, and middleware to create a seamless experience for social media management.'
+      ],
+      technologies: ['NodeJS', 'MongoDB', 'Express', 'React', 'Social Media APIs', 'REST APIs', 'JavaScript'],
+      repoUrl: 'https://github.com/sibi1702/adv-systems.git'
     }
   ];
 
