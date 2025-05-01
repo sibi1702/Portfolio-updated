@@ -43,7 +43,7 @@ const AboutMe: React.FC = () => {
               <div className="mb-8 md:mb-6">
                 {/* Button with text directly in HTML */}
                 <a
-                  href="https://drive.google.com/file/d/1jdolG9C_7S-MwJB-V5l-eocR8jkNIdxE/view?usp=sharing"
+                  href="https://drive.google.com/file/d/1Crn3fZMdZPW5RQFbaZ_3kZJNC_v_ORwj/view?usp=sharing"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="resume-button"
