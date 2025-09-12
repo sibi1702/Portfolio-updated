@@ -27,15 +27,24 @@ const getProducer = async () => {
     const kafka = new Kafka({
       clientId: 'portfolio-simple',
       brokers: process.env.KAFKA_BROKERS.split(','),
-      connectionTimeout: 2000,
-      requestTimeout: 3000,
-      retry: { retries: 0 },
+      connectionTimeout: 5000,  // Increase for TLS handshake
+      requestTimeout: 8000,
+      authenticationTimeout: 5000,
+      retry: {
+        initialRetryTime: 100,
+        retries: 1  // Allow one retry for TLS issues
+      },
       sasl: process.env.KAFKA_USERNAME ? {
         mechanism: 'plain',
         username: process.env.KAFKA_USERNAME,
         password: process.env.KAFKA_PASSWORD,
       } : undefined,
-      ssl: process.env.KAFKA_SSL === 'true' || process.env.KAFKA_BROKERS.includes('confluent.cloud')
+      ssl: process.env.KAFKA_SSL === 'true' || process.env.KAFKA_BROKERS.includes('confluent.cloud') ? {
+        rejectUnauthorized: true,
+        // Add specific TLS options for Confluent Cloud
+        servername: process.env.KAFKA_BROKERS.split(',')[0].split(':')[0],
+        checkServerIdentity: () => undefined  // Disable hostname verification for serverless
+      } : false
     });
 
     const producer = kafka.producer({
@@ -43,10 +52,10 @@ const getProducer = async () => {
       idempotent: false
     });
 
-    // Connect with timeout
+    // Connect with timeout (longer for TLS handshake)
     await Promise.race([
       producer.connect(),
-      new Promise((_, reject) => setTimeout(() => reject(new Error('Connection timeout')), 3000))
+      new Promise((_, reject) => setTimeout(() => reject(new Error('Connection timeout')), 8000))
     ]);
 
     globalProducer = producer;
