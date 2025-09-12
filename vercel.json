@@ -1,9 +1,4 @@
 {
-  "functions": {
-    "api/track.ts": {
-      "runtime": "@vercel/node@18.x"
-    }
-  },
   "rewrites": [
     { "source": "/(.*)", "destination": "/index.html" }
   ],
