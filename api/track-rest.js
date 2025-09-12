@@ -43,23 +43,35 @@ export default async function handler(req, res) {
         timestamp: trackingEvent.timestamp
       });
 
-      // Try Kafka REST API in background
-      if (process.env.KAFKA_REST_URL && process.env.KAFKA_API_KEY) {
+      // Try Kafka REST API in background - check multiple variable name patterns
+      const restUrl = process.env.KAFKA_REST_URL;
+      const apiKey = process.env.KAFKA_API_KEY || process.env.KAFKA_USERNAME;
+      const apiSecret = process.env.KAFKA_API_SECRET || process.env.KAFKA_PASSWORD;
+
+      console.log('🔍 Environment variable debug:');
+      console.log('- KAFKA_REST_URL:', process.env.KAFKA_REST_URL ? 'Set' : 'Missing');
+      console.log('- KAFKA_API_KEY:', process.env.KAFKA_API_KEY ? 'Set' : 'Missing');
+      console.log('- KAFKA_API_SECRET:', process.env.KAFKA_API_SECRET ? 'Set' : 'Missing');
+      console.log('- KAFKA_USERNAME:', process.env.KAFKA_USERNAME ? 'Set' : 'Missing');
+      console.log('- KAFKA_PASSWORD:', process.env.KAFKA_PASSWORD ? 'Set' : 'Missing');
+      console.log('- KAFKA_BROKERS:', process.env.KAFKA_BROKERS ? 'Set' : 'Missing');
+      console.log('- KAFKA_TOPIC:', process.env.KAFKA_TOPIC ? 'Set' : 'Missing');
+
+      if (restUrl && apiKey && apiSecret) {
         setImmediate(async () => {
           try {
             console.log('🚀 Starting Kafka REST operation...');
-            console.log('📋 REST Environment check:');
-            console.log('- KAFKA_REST_URL:', process.env.KAFKA_REST_URL ? 'Set' : 'Missing');
-            console.log('- KAFKA_API_KEY:', process.env.KAFKA_API_KEY ? 'Set' : 'Missing');
-            console.log('- KAFKA_API_SECRET:', process.env.KAFKA_API_SECRET ? 'Set' : 'Missing');
-            console.log('- KAFKA_TOPIC:', process.env.KAFKA_TOPIC || 'click-events (default)');
+            console.log('📋 Using credentials:');
+            console.log('- REST URL:', restUrl);
+            console.log('- API Key:', apiKey ? 'Set' : 'Missing');
+            console.log('- API Secret:', apiSecret ? 'Set (length: ' + apiSecret.length + ')' : 'Missing');
 
             const topic = process.env.KAFKA_TOPIC || 'click-events';
-            const restUrl = `${process.env.KAFKA_REST_URL}/topics/${topic}`;
-            
+            const topicUrl = `${restUrl}/topics/${topic}`;
+
             // Create Basic Auth header
-            const auth = Buffer.from(`${process.env.KAFKA_API_KEY}:${process.env.KAFKA_API_SECRET}`).toString('base64');
-            
+            const auth = Buffer.from(`${apiKey}:${apiSecret}`).toString('base64');
+
             const payload = {
               records: [
                 {
@@ -73,10 +85,10 @@ export default async function handler(req, res) {
               ]
             };
 
-            console.log('📤 Sending to REST URL:', restUrl);
+            console.log('📤 Sending to REST URL:', topicUrl);
             console.log('📦 REST Payload:', JSON.stringify(payload, null, 2));
 
-            const response = await fetch(restUrl, {
+            const response = await fetch(topicUrl, {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/vnd.kafka.json.v2+json',
@@ -105,8 +117,13 @@ export default async function handler(req, res) {
           }
         });
       } else {
-        console.log('⚠️ Kafka REST environment variables not set');
-        console.log('Required: KAFKA_REST_URL, KAFKA_API_KEY, KAFKA_API_SECRET');
+        console.log('⚠️ Kafka REST environment variables missing:');
+        console.log('- Need KAFKA_REST_URL:', restUrl ? '✅' : '❌');
+        console.log('- Need API Key (KAFKA_API_KEY or KAFKA_USERNAME):', apiKey ? '✅' : '❌');
+        console.log('- Need API Secret (KAFKA_API_SECRET or KAFKA_PASSWORD):', apiSecret ? '✅' : '❌');
+        console.log('');
+        console.log('💡 To fix: Add KAFKA_REST_URL to your Vercel environment variables');
+        console.log('💡 Example: https://pkc-619z3.us-east1.gcp.confluent.cloud:443');
       }
 
       return; // Response already sent
