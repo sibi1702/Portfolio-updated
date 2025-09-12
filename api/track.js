@@ -1,5 +1,45 @@
-// Simple Node.js function for Vercel
-export default function handler(req, res) {
+// Simple Node.js function for Vercel with Kafka integration
+import { Kafka } from 'kafkajs';
+
+// Initialize Kafka client
+let kafka = null;
+let producer = null;
+
+const initKafka = async () => {
+  if (!kafka && process.env.KAFKA_BROKERS) {
+    try {
+      const kafkaConfig = {
+        clientId: process.env.KAFKA_CLIENT_ID || 'portfolio-tracker',
+        brokers: process.env.KAFKA_BROKERS.split(','),
+      };
+
+      // Add authentication if provided
+      if (process.env.KAFKA_USERNAME && process.env.KAFKA_PASSWORD) {
+        kafkaConfig.sasl = {
+          mechanism: 'plain',
+          username: process.env.KAFKA_USERNAME,
+          password: process.env.KAFKA_PASSWORD,
+        };
+      }
+
+      // Add SSL if required
+      if (process.env.KAFKA_SSL === 'true') {
+        kafkaConfig.ssl = true;
+      }
+
+      kafka = new Kafka(kafkaConfig);
+      producer = kafka.producer();
+      await producer.connect();
+      console.log('✅ Kafka producer connected successfully');
+    } catch (error) {
+      console.error('❌ Failed to initialize Kafka:', error);
+      kafka = null;
+      producer = null;
+    }
+  }
+};
+
+export default async function handler(req, res) {
   // Enable CORS
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, GET, OPTIONS');
@@ -23,14 +63,17 @@ export default function handler(req, res) {
   // Handle POST requests
   if (req.method === 'POST') {
     try {
+      // Initialize Kafka if not already done
+      await initKafka();
+
       // Get client IP
-      const clientIP = 
+      const clientIP =
         req.headers['x-forwarded-for']?.split(',')[0] ||
         req.headers['x-real-ip'] ||
         'unknown';
 
       // Generate simple ID (since crypto.randomUUID might not be available)
-      const id = Date.now().toString(36) + Math.random().toString(36).substr(2);
+      const id = Date.now().toString(36) + Math.random().toString(36).substring(2);
 
       const trackingEvent = {
         id,
@@ -51,14 +94,48 @@ export default function handler(req, res) {
 
       console.log("📊 Tracking Event:", JSON.stringify(trackingEvent, null, 2));
 
-      // For now, just log the event (we'll add Kafka back later)
+      let kafkaSent = false;
+      let kafkaError = null;
+
+      // Try to send to Kafka if producer is available
+      if (producer) {
+        try {
+          const topic = process.env.KAFKA_TOPIC || 'click-events';
+
+          await producer.send({
+            topic: topic,
+            messages: [
+              {
+                key: trackingEvent.id,
+                value: JSON.stringify(trackingEvent),
+                timestamp: Date.now().toString(),
+                headers: {
+                  'event-type': trackingEvent.event_type,
+                  'source': 'portfolio-website'
+                }
+              }
+            ]
+          });
+
+          kafkaSent = true;
+          console.log("📩 Event sent to Kafka successfully");
+        } catch (kafkaErr) {
+          console.error("❌ Failed to send to Kafka:", kafkaErr);
+          kafkaError = kafkaErr.message;
+        }
+      } else {
+        console.log("⚠️ Kafka producer not available, logging only");
+      }
+
+      // Always log the event locally as backup
       console.log("💾 Event logged successfully");
 
       return res.status(200).json({
         success: true,
         eventId: trackingEvent.id,
-        message: "Event tracked successfully (logged only for now)",
-        kafka_sent: false,
+        message: kafkaSent ? "Event tracked and sent to Kafka" : "Event tracked (Kafka unavailable)",
+        kafka_sent: kafkaSent,
+        kafka_error: kafkaError,
         timestamp: trackingEvent.timestamp
       });
 
@@ -67,10 +144,34 @@ export default function handler(req, res) {
       return res.status(500).json({
         success: false,
         error: "Failed to process tracking event",
-        message: error.message
+        message: error.message,
+        kafka_sent: false
       });
     }
   }
 
   return res.status(405).json({ error: 'Method not allowed' });
 }
+
+// Graceful shutdown handler for Kafka producer
+process.on('SIGTERM', async () => {
+  if (producer) {
+    try {
+      await producer.disconnect();
+      console.log('🔌 Kafka producer disconnected');
+    } catch (error) {
+      console.error('❌ Error disconnecting Kafka producer:', error);
+    }
+  }
+});
+
+process.on('SIGINT', async () => {
+  if (producer) {
+    try {
+      await producer.disconnect();
+      console.log('🔌 Kafka producer disconnected');
+    } catch (error) {
+      console.error('❌ Error disconnecting Kafka producer:', error);
+    }
+  }
+});
