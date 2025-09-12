@@ -97,9 +97,12 @@ export default async function handler(req, res) {
               console.log("🔐 Using SASL authentication");
             }
 
-            if (process.env.KAFKA_SSL === 'true') {
+            // Confluent Cloud always requires SSL
+            if (process.env.KAFKA_SSL === 'true' || process.env.KAFKA_BROKERS?.includes('confluent.cloud')) {
               kafkaConfig.ssl = true;
               console.log("🔒 Using SSL connection");
+            } else {
+              console.log("⚠️ SSL not enabled - this may cause connection issues with cloud Kafka services");
             }
 
             console.log("🌐 Connecting to brokers:", kafkaConfig.brokers);
