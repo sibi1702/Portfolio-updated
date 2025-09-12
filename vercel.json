@@ -1,4 +1,9 @@
 {
+  "functions": {
+    "api/track.ts": {
+      "runtime": "@vercel/node@3"
+    }
+  },
   "rewrites": [
     { "source": "/(.*)", "destination": "/index.html" }
   ],
@@ -21,13 +26,6 @@
         }
       ]
     },
-    {
-      "functions": {
-        "api/track.ts": {
-          "runtime": "@vercel/node@3"
-        }
-      }
-    },    
     {
       "source": "/assets/(.*)",
       "headers": [
