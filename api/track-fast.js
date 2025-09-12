@@ -80,11 +80,13 @@ export default async function handler(req, res) {
             const kafkaConfig = {
               clientId: 'portfolio-fast-tracker',
               brokers: process.env.KAFKA_BROKERS.split(','),
-              connectionTimeout: 5000,
-              requestTimeout: 8000,
+              connectionTimeout: 3000,  // Shorter timeout for serverless
+              requestTimeout: 5000,     // Shorter request timeout
+              authenticationTimeout: 3000,  // Add auth timeout
+              reauthenticationThreshold: 10000,
               retry: {
-                initialRetryTime: 100,
-                retries: 1
+                initialRetryTime: 50,   // Faster initial retry
+                retries: 0              // No retries to avoid hanging
               }
             };
 
@@ -109,29 +111,62 @@ export default async function handler(req, res) {
             const kafka = new Kafka(kafkaConfig);
             const producer = kafka.producer({
               maxInFlightRequests: 1,
-              idempotent: false
+              idempotent: false,
+              transactionTimeout: 3000
             });
 
             console.log("🔌 Connecting producer...");
-            await producer.connect();
+
+            // Add connection timeout wrapper
+            const connectWithTimeout = async () => {
+              const connectPromise = producer.connect();
+              const timeoutPromise = new Promise((_, reject) => {
+                setTimeout(() => reject(new Error('Producer connection timeout after 4 seconds')), 4000);
+              });
+              return Promise.race([connectPromise, timeoutPromise]);
+            };
+
+            await connectWithTimeout();
             console.log("✅ Producer connected");
 
             const topic = process.env.KAFKA_TOPIC || 'click-events';
             console.log("📤 Sending to topic:", topic);
 
-            await producer.send({
-              topic: topic,
-              messages: [{
-                key: trackingEvent.id,
-                value: JSON.stringify(trackingEvent),
-                headers: {
-                  'event-type': trackingEvent.event_type,
-                  'source': 'portfolio-website-fast'
-                }
-              }]
+            // Add send timeout wrapper
+            const sendWithTimeout = async () => {
+              const sendPromise = producer.send({
+                topic: topic,
+                messages: [{
+                  key: trackingEvent.id,
+                  value: JSON.stringify(trackingEvent),
+                  headers: {
+                    'event-type': trackingEvent.event_type,
+                    'source': 'portfolio-website-fast'
+                  }
+                }]
+              });
+              const timeoutPromise = new Promise((_, reject) => {
+                setTimeout(() => reject(new Error('Send timeout after 3 seconds')), 3000);
+              });
+              return Promise.race([sendPromise, timeoutPromise]);
+            };
+
+            await sendWithTimeout();
+            console.log("✅ Message sent successfully");
+
+            // Disconnect with timeout
+            const disconnectPromise = producer.disconnect();
+            const disconnectTimeout = new Promise((_, reject) => {
+              setTimeout(() => reject(new Error('Disconnect timeout')), 2000);
             });
 
-            await producer.disconnect();
+            try {
+              await Promise.race([disconnectPromise, disconnectTimeout]);
+              console.log("🔌 Producer disconnected");
+            } catch (disconnectError) {
+              console.log("⚠️ Disconnect timeout (this is okay)");
+            }
+
             console.log("📩 Background Kafka send successful");
           } catch (kafkaError) {
             console.error("❌ Background Kafka failed:", kafkaError.message);
