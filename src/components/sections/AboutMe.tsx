@@ -40,17 +40,6 @@ const AboutMe: React.FC = () => {
             </div>
 
             <div className="text-white text-center md:text-left">
-              <div className="mb-8 md:mb-6">
-                {/* Button with text directly in HTML */}
-                <a
-                  href="https://drive.google.com/file/d/1Crn3fZMdZPW5RQFbaZ_3kZJNC_v_ORwj/view?usp=sharing"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="resume-button"
-                  aria-label="View Resume on Google Drive"
-                >
-                </a>
-              </div>
               <p className="mb-4 text-gray-200 text-sm md:text-base leading-relaxed">
                 Gen-AI Data Engineer and Analyst, bridging advanced data engineering with generative AI to build intelligent, scalable, and insight-driven solutions.
               </p>
