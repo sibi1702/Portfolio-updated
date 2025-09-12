@@ -67,33 +67,57 @@ export default async function handler(req, res) {
       if (process.env.KAFKA_BROKERS) {
         setImmediate(async () => {
           try {
+            console.log("🚀 Starting background Kafka operation...");
+            console.log("📋 Kafka config check:");
+            console.log("- KAFKA_BROKERS:", process.env.KAFKA_BROKERS ? "✅ Set" : "❌ Missing");
+            console.log("- KAFKA_USERNAME:", process.env.KAFKA_USERNAME ? "✅ Set" : "❌ Missing");
+            console.log("- KAFKA_PASSWORD:", process.env.KAFKA_PASSWORD ? "✅ Set" : "❌ Missing");
+            console.log("- KAFKA_SSL:", process.env.KAFKA_SSL);
+            console.log("- KAFKA_TOPIC:", process.env.KAFKA_TOPIC || 'click-events (default)');
+
             const { Kafka } = await import('kafkajs');
-            
-            const kafka = new Kafka({
+
+            const kafkaConfig = {
               clientId: 'portfolio-fast-tracker',
               brokers: process.env.KAFKA_BROKERS.split(','),
-              connectionTimeout: 2000,
-              requestTimeout: 3000,
-              retry: { retries: 0 }
-            });
+              connectionTimeout: 5000,
+              requestTimeout: 8000,
+              retry: {
+                initialRetryTime: 100,
+                retries: 1
+              }
+            };
 
             if (process.env.KAFKA_USERNAME && process.env.KAFKA_PASSWORD) {
-              kafka.sasl = {
+              kafkaConfig.sasl = {
                 mechanism: 'plain',
                 username: process.env.KAFKA_USERNAME,
                 password: process.env.KAFKA_PASSWORD,
               };
+              console.log("🔐 Using SASL authentication");
             }
 
             if (process.env.KAFKA_SSL === 'true') {
-              kafka.ssl = true;
+              kafkaConfig.ssl = true;
+              console.log("🔒 Using SSL connection");
             }
 
-            const producer = kafka.producer();
+            console.log("🌐 Connecting to brokers:", kafkaConfig.brokers);
+            const kafka = new Kafka(kafkaConfig);
+            const producer = kafka.producer({
+              maxInFlightRequests: 1,
+              idempotent: false
+            });
+
+            console.log("🔌 Connecting producer...");
             await producer.connect();
-            
+            console.log("✅ Producer connected");
+
+            const topic = process.env.KAFKA_TOPIC || 'click-events';
+            console.log("📤 Sending to topic:", topic);
+
             await producer.send({
-              topic: process.env.KAFKA_TOPIC || 'click-events',
+              topic: topic,
               messages: [{
                 key: trackingEvent.id,
                 value: JSON.stringify(trackingEvent),
@@ -108,8 +132,11 @@ export default async function handler(req, res) {
             console.log("📩 Background Kafka send successful");
           } catch (kafkaError) {
             console.error("❌ Background Kafka failed:", kafkaError.message);
+            console.error("❌ Full error:", kafkaError);
           }
         });
+      } else {
+        console.log("⚠️ KAFKA_BROKERS not set, skipping Kafka");
       }
 
       // Don't return here since we already sent the response
