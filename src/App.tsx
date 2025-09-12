@@ -8,7 +8,7 @@ const App: React.FC = () => {
     const isDev = process.env.NODE_ENV === 'development';
     const baseUrl = isDev ? 'http://localhost:3000' : '';
     
-    const TRACKING_URL = `${baseUrl}/api/track`;
+    const TRACKING_URL = `${baseUrl}/api/track-fast`;
 
     const sendEvent = (eventType: string, additionalData: Record<string, unknown> = {}) => {
       const eventData = {
