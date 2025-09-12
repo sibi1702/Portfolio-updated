@@ -24,35 +24,40 @@ const Timeline: React.FC = () => {
   const experienceData = [
     {
       id: 1,
-      role: 'Software Engineer Internship',
+      role: 'Data Analyst Intern',
       company: 'SkyIT Services | Subsidiary of GBCS Group',
+      website: 'https://www.skyit.services',
       period: 'September 2024 – February 2025',
       responsibilities: [
-        'Assisted in developing an internal project to track employee tasks and maintain records for a comprehensive overview of assigned responsibilities and progress.',
-        'I developed and maintained web applications using React and Next.js, enhancing user interfaces and improving the overall performance and responsiveness of the platform.',
+        'Analyzed cloud integrated proposal file workflows, leveraging performance metrics to identify a 60% reduction in manual handling and 35% faster document access through versioning and automation.',
+        'Developed dashboards in Power BI to visualize proposal submission KPIs and workflow efficiency, highlighting a 40% reduction in processing time.',
+        'Performed data validation and quality checks on proposal and user activity datasets using Excel and Python, ensuring accuracy for reporting and supporting data driven decision making.',
       ],
     },
     {
       id: 2,
-      role: 'Software Developer',
+      role: 'Data Engineer',
       company: 'Ardhas Technology India Private Limited, India',
-      website: 'https://ilearn.gov.in/',
+      website: 'https://www.ardhas.com',
       period: 'May 2023 - July 2024',
       duration: '1 Year & 2 months',
       responsibilities: [
-        'Enhanced the Enrollment module for students and faculty, and integrated University APIs for efficient student data retrieval using Python and MongoDB.',
-        'Engineered the development of the Universities and Courses module, enhancing educational resources for underserved regions in Afghanistan and Africa.',
+        'Built ETL pipelines using Python, integrating multi-country embassy data into Snowflake and Oracle to support internal reporting and analytics for 60+ Indian embassies.',
+        'Developed data workflows with AWS Glue and S3, processing 100K+ embassy records/day across multiple reporting pipelines.',
+        'Orchestrated end-to-end embassy data workflows using Apache Airflow, improving reliability and monitoring of daily reporting tasks.',
+        'Automated data ingestion from embassy portals and global datasets via API Gateway, increasing reporting update frequency by 40%.',
       ],
     },
     {
       id: 3,
-      role: 'Software Engineer',
+      role: 'Data Analyst',
       company: 'Biztech Softsys Pte Ltd, Singapore',
       website: 'https://www.neoehs.com',
       period: 'January 2023 - April 2023',
       responsibilities: [
-        'Focused on the Permit to Work Management module of NeoEHS, streamlining permit issuance, tracking, and closure to improve efficiency and ensure regulatory compliance.',
-        'Utilized PHP, Python, JavaScript, and MySQL, and integrated Google facial recognition technology with a kiosk-based camera system for identity verification of permit holders.',
+        'Analyzed and integrated EHS datasets (incidents, risks, permits, inspections) using SQL and Python, generating insights that improved compliance reporting accuracy by 30%.',
+        'Designed dashboards in Power BI and Excel to visualize incident trends, audit outcomes, and permit statuses, reducing manual reporting time by 40% and enabling faster decision-making.',
+        'Performed data validation and cleansing across NeoEHS web and mobile modules using SQL and Excel, improving data reliability by 25% for compliance and safety analytics.'
       ],
     },
     {
@@ -590,17 +595,6 @@ const Timeline: React.FC = () => {
                   <li key={`modal-resp-${exp.id}-${idx}`}>{resp}</li>
                 ))}
               </ul>
-            </div>
-
-            <div className="mt-4">
-              <h3 className="text-lg font-semibold text-white mb-2">Skills & Technologies:</h3>
-              <div className="flex flex-wrap gap-2">
-                {['React', 'TypeScript', 'Node.js', 'MongoDB', 'Python', 'JavaScript'].map((skill) => (
-                  <span key={`skill-${skill}`} className="px-3 py-1 bg-white/20 text-white rounded-full text-sm font-medium backdrop-blur-sm shadow-sm">
-                    {skill}
-                  </span>
-                ))}
-              </div>
             </div>
           </div>
         </Modal>

@@ -42,11 +42,11 @@ const Home: React.FC = () => {
                 <TypewriterText
                   texts={[
                     "What I do?",
-                    "Full Stack Developement. . .",
-                    "AI/ML Developement. . .",
-                    "Generative AI Development. . .",
-                    "Problem Solving. . .",
-                    "Tech Enthusiast. . .",
+                    "Data Engineering. . .",
+                    "Data Analysis. . .",
+                    "Big Data Engineering. . .",
+                    "ETL/ELT Pipelining. . .",
+                    "Data Driven solutions. . .",
                     "Creative Coding. . ."
                   ]}
                   typingSpeed={70}

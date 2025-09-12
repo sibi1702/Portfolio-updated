@@ -16,15 +16,15 @@ const Projects: React.FC = () => {
   const projectsData: ProjectData[] = [
     {
       id: 1,
-      title: 'iLearn Government of India',
-      period: 'April 2023 - Present',
+      title: 'Air Quality Analytics',
+      period: 'Jan 2025 - May 2025',
       description: [
-        'This project focuses on online education for Afghanistan and African students who struggle to access education (e-VidyaBharati and e-ArogyaBharati Network Project).',
-        'Worked on the Enrollment module for both students and faculty of the iLearn project.',
-        'Integrated University APIs for the application process, allowing Partner Universities to retrieve student details using email IDs.'
+        'Architected a pipeline using Eventstream and Eventhouse to capture and process real-time air quality data from IoT sensors and open datasets.',
+        'Developed analytical models in Synapse and built interactive dashboards in Power BI to visualize pollutant levels, temporal trends, and health impact indicators.',
+        'Improved data processing and reporting efficiency by 25%, enabling faster insights and more accurate forecasting for air quality monitoring.'
       ],
-      technologies: ['Python', 'Pandas', 'MongoDB', 'Mongoose', 'REST APIs', 'Postman API', 'Facebook API'],
-      repoUrl: 'https://ilearn.gov.in/'
+      technologies: ['Python', 'Pandas', 'Eventstream', 'Eventhouse', 'Synapse', 'Power BI', 'Data Factory'],
+      repoUrl: ''
     },
     {
       id: 2,
@@ -63,18 +63,6 @@ const Projects: React.FC = () => {
       technologies: ['R Programming', 'LCD', 'YOLO', 'Machine Learning', 'Computer Vision'],
       repoUrl: 'https://github.com/sibi1702/autonomous-driving-cv'
     },
-    {
-      id: 5,
-      title: 'Social Media Advertising Platform',
-      period: 'July 2022 - October 2022',
-      description: [
-        'Integrated APIs for Facebook, Twitter, Instagram, LinkedIn, and YouTube into a unified web portal, enabling simultaneous content posting across multiple social media platforms.',
-        'Developed front-end and established MongoDB connectivity, creating a user-friendly dashboard for managing social media accounts.',
-        'Used NodeJS for handling API requests, routing, and middleware to create a seamless experience for social media management.'
-      ],
-      technologies: ['NodeJS', 'MongoDB', 'Express', 'React', 'Social Media APIs', 'REST APIs', 'JavaScript'],
-      repoUrl: 'https://github.com/sibi1702/adv-systems.git'
-    }
   ];
 
   const [activeModal, setActiveModal] = useState<string | null>(null);

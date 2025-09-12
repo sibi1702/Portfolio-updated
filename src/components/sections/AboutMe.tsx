@@ -49,20 +49,16 @@ const AboutMe: React.FC = () => {
                   className="resume-button"
                   aria-label="View Resume on Google Drive"
                 >
-                  <div className="resume-icon">
-                    <i className="fas fa-file-alt"></i>
-                  </div>
-                  <div className="resume-text">Resume</div>
                 </a>
               </div>
               <p className="mb-4 text-gray-200 text-sm md:text-base leading-relaxed">
-                Full Stack Developer and AI specialist, crafting intelligent solutions at the intersection of web development and artificial intelligence. Expert in React, TypeScript, and Node.js for robust web applications, while leveraging Python and TensorFlow for advanced AI implementations.
+                Gen-AI Data Engineer and Analyst, bridging advanced data engineering with generative AI to build intelligent, scalable, and insight-driven solutions.
               </p>
               <p className="mb-4 text-gray-200 text-sm md:text-base leading-relaxed">
-                Deeply involved in Generative AI development, specializing in Large Language Models (LLMs), Retrieval-Augmented Generation (RAG), and AI agents. Experienced in building custom LLM applications, knowledge-based chatbots, and intelligent automation systems that transform business processes.
+                Expert in Python, SQL, PySpark, Microsoft Fabric, and Databricks for advanced data processing, analytics, and large-scale data workflows.
               </p>
               <p className="text-gray-200 text-sm md:text-base leading-relaxed">
-                Currently exploring multi-modal AI models, vector databases, and enterprise AI integration patterns to create next-generation software solutions that combine human expertise with artificial intelligence.
+                Deeply involved in data-driven analytics, specializing in ETL pipeline development, KPI dashboards (Power BI, Tableau), and predictive modeling (Machine Learning, Neural Networks) to transform raw data into actionable intelligence.
               </p>
 
               <div className="mt-4 md:mt-6 flex gap-6 justify-center md:justify-start">

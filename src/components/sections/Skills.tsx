@@ -3,36 +3,42 @@ import { motion } from 'framer-motion';
 
 const Skills: React.FC = () => {
   const skills = [
-    // Frontend
-    { name: 'React', icon: 'devicon-react-original' },
-    { name: 'TypeScript', icon: 'devicon-typescript-plain' },
-    { name: 'JavaScript', icon: 'devicon-javascript-plain' },
-    { name: 'HTML5', icon: 'devicon-html5-plain' },
-    { name: 'CSS3', icon: 'devicon-css3-plain' },
-    { name: 'Tailwind CSS', icon: 'devicon-tailwindcss-plain' },
-    { name: 'Next.js', icon: 'devicon-nextjs-original' },
-    { name: 'Pandas', icon: 'devicon-pandas-original' },
-
-    // Backend
+    // Programming & Data
     { name: 'Python', icon: 'devicon-python-plain' },
-    { name: 'Node.js', icon: 'devicon-nodejs-plain' },
-    { name: 'Django', icon: 'devicon-django-plain' },
-    { name: 'Express', icon: 'devicon-express-original' },
-    { name: 'FastAPI', icon: 'devicon-fastapi-plain' },
-
-    // Database
+    { name: 'R', icon: 'devicon-r-plain' },
+    { name: 'SQL', icon: 'devicon-mysql-plain' },
     { name: 'PostgreSQL', icon: 'devicon-postgresql-plain' },
-    { name: 'MongoDB', icon: 'devicon-mongodb-plain' },
-    { name: 'Redis', icon: 'devicon-redis-plain' },
-    { name: 'MySQL', icon: 'devicon-mysql-plain' },
-    { name: 'Firebase', icon: 'devicon-firebase-plain' },
+    { name: 'NoSQL', icon: 'devicon-mongodb-plain' },
+    { name: 'KQL', icon: 'devicon-azuresqldatabase-plain' },
 
-    // DevOps
-    { name: 'Docker', icon: 'devicon-docker-plain' },
+    // Data Engineering & Big Data
+    { name: 'PySpark', icon: 'devicon-apachespark-original' },
+    { name: 'Hadoop', icon: 'devicon-hadoop-plain' },
+    { name: 'Airflow', icon: 'devicon-apacheairflow-plain' },
+    { name: 'ETL Pipelines', icon: 'devicon-databricks-original' },
+    { name: 'Databricks', icon: 'devicon-databricks-original' },
+    { name: 'Microsoft Fabric', icon: 'devicon-azure-plain' },
+    { name: 'Snowflake', icon: 'devicon-snowflake-original' },
+
+    // Cloud Platforms
     { name: 'AWS', icon: 'devicon-amazonwebservices-original' },
+    { name: 'S3', icon: 'devicon-amazonwebservices-original' },
+    { name: 'Redshift', icon: 'devicon-amazonwebservices-original' },
+    { name: 'Lambda', icon: 'devicon-amazonwebservices-original' },
+    { name: 'Glue', icon: 'devicon-amazonwebservices-original' },
+
+    // Visualization & Analytics
+    { name: 'Power BI', icon: 'devicon-powerbi-plain' },
+    { name: 'Tableau', icon: 'devicon-tableau-original' },
+    { name: 'Matplotlib', icon: 'devicon-numpy-original' },
+    { name: 'Pandas', icon: 'devicon-pandas-original' },
+    { name: 'NumPy', icon: 'devicon-numpy-original' },
+
+    // DevOps & Tools
+    { name: 'Docker', icon: 'devicon-docker-plain' },
     { name: 'Git', icon: 'devicon-git-plain' },
-    { name: 'Linux', icon: 'devicon-linux-plain' },
     { name: 'GitHub', icon: 'devicon-github-original' },
+    { name: 'Linux', icon: 'devicon-linux-plain' },
   ];
 
   const container = {
