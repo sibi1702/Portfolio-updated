@@ -11,6 +11,13 @@ const initKafka = async () => {
       const kafkaConfig = {
         clientId: process.env.KAFKA_CLIENT_ID || 'portfolio-tracker',
         brokers: process.env.KAFKA_BROKERS.split(','),
+        // Add aggressive timeouts for serverless environment
+        connectionTimeout: 3000,  // 3 seconds
+        requestTimeout: 5000,     // 5 seconds
+        retry: {
+          initialRetryTime: 100,
+          retries: 2
+        }
       };
 
       // Add authentication if provided
@@ -28,8 +35,20 @@ const initKafka = async () => {
       }
 
       kafka = new Kafka(kafkaConfig);
-      producer = kafka.producer();
-      await producer.connect();
+      producer = kafka.producer({
+        // Producer-specific timeouts
+        maxInFlightRequests: 1,
+        idempotent: false,
+        transactionTimeout: 3000
+      });
+
+      // Set a timeout for the connection attempt
+      const connectPromise = producer.connect();
+      const timeoutPromise = new Promise((_, reject) => {
+        setTimeout(() => reject(new Error('Connection timeout after 4 seconds')), 4000);
+      });
+
+      await Promise.race([connectPromise, timeoutPromise]);
       console.log('✅ Kafka producer connected successfully');
     } catch (error) {
       console.error('❌ Failed to initialize Kafka:', error);
@@ -63,9 +82,6 @@ export default async function handler(req, res) {
   // Handle POST requests
   if (req.method === 'POST') {
     try {
-      // Initialize Kafka if not already done
-      await initKafka();
-
       // Get client IP
       const clientIP =
         req.headers['x-forwarded-for']?.split(',')[0] ||
@@ -97,34 +113,53 @@ export default async function handler(req, res) {
       let kafkaSent = false;
       let kafkaError = null;
 
-      // Try to send to Kafka if producer is available
-      if (producer) {
-        try {
-          const topic = process.env.KAFKA_TOPIC || 'click-events';
-
-          await producer.send({
-            topic: topic,
-            messages: [
-              {
-                key: trackingEvent.id,
-                value: JSON.stringify(trackingEvent),
-                timestamp: Date.now().toString(),
-                headers: {
-                  'event-type': trackingEvent.event_type,
-                  'source': 'portfolio-website'
-                }
-              }
-            ]
+      // Try to initialize and send to Kafka with timeout
+      try {
+        // Only try Kafka if environment variables are set
+        if (process.env.KAFKA_BROKERS) {
+          // Initialize Kafka if not already done (with timeout)
+          const initPromise = initKafka();
+          const initTimeout = new Promise((_, reject) => {
+            setTimeout(() => reject(new Error('Kafka init timeout')), 3000);
           });
 
-          kafkaSent = true;
-          console.log("📩 Event sent to Kafka successfully");
-        } catch (kafkaErr) {
-          console.error("❌ Failed to send to Kafka:", kafkaErr);
-          kafkaError = kafkaErr.message;
+          await Promise.race([initPromise, initTimeout]);
+
+          // Try to send message if producer is available
+          if (producer) {
+            const topic = process.env.KAFKA_TOPIC || 'click-events';
+
+            const sendPromise = producer.send({
+              topic: topic,
+              messages: [
+                {
+                  key: trackingEvent.id,
+                  value: JSON.stringify(trackingEvent),
+                  timestamp: Date.now().toString(),
+                  headers: {
+                    'event-type': trackingEvent.event_type,
+                    'source': 'portfolio-website'
+                  }
+                }
+              ]
+            });
+
+            const sendTimeout = new Promise((_, reject) => {
+              setTimeout(() => reject(new Error('Kafka send timeout')), 2000);
+            });
+
+            await Promise.race([sendPromise, sendTimeout]);
+            kafkaSent = true;
+            console.log("📩 Event sent to Kafka successfully");
+          } else {
+            console.log("⚠️ Kafka producer not available after init");
+          }
+        } else {
+          console.log("⚠️ Kafka environment variables not set");
         }
-      } else {
-        console.log("⚠️ Kafka producer not available, logging only");
+      } catch (kafkaErr) {
+        console.error("❌ Kafka operation failed:", kafkaErr.message);
+        kafkaError = kafkaErr.message;
       }
 
       // Always log the event locally as backup

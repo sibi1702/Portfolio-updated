@@ -43,8 +43,12 @@ export default async function handler(req, res) {
     const kafkaConfig = {
       clientId: process.env.KAFKA_CLIENT_ID || 'portfolio-test',
       brokers: process.env.KAFKA_BROKERS.split(','),
-      connectionTimeout: 10000,
-      requestTimeout: 10000,
+      connectionTimeout: 3000,  // 3 seconds for serverless
+      requestTimeout: 5000,     // 5 seconds for serverless
+      retry: {
+        initialRetryTime: 100,
+        retries: 1  // Minimal retries for testing
+      }
     };
 
     // Add authentication if provided
@@ -66,12 +70,20 @@ export default async function handler(req, res) {
     const producer = kafka.producer();
 
     try {
-      // Test admin connection
-      await admin.connect();
+      // Test admin connection with timeout
+      const adminConnectPromise = admin.connect();
+      const adminTimeout = new Promise((_, reject) => {
+        setTimeout(() => reject(new Error('Admin connection timeout after 4 seconds')), 4000);
+      });
+      await Promise.race([adminConnectPromise, adminTimeout]);
       testResults.kafka_connection = '✅ Admin connected successfully';
-      
-      // Test producer connection
-      await producer.connect();
+
+      // Test producer connection with timeout
+      const producerConnectPromise = producer.connect();
+      const producerTimeout = new Promise((_, reject) => {
+        setTimeout(() => reject(new Error('Producer connection timeout after 4 seconds')), 4000);
+      });
+      await Promise.race([producerConnectPromise, producerTimeout]);
       testResults.kafka_connection += ' | ✅ Producer connected successfully';
 
       // Test topic existence
