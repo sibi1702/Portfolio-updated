@@ -1,9 +1,39 @@
-import React from 'react';
-
+import React, { useEffect } from 'react';
 import Home from './pages/home';
 import VideoBackground from './components/common/VideoBackground';
 
 const App: React.FC = () => {
+  useEffect(() => {
+    const RAILWAY_BACKEND_URL = 'https://function-bun-production-33d8.up.railway.app/track';
+    
+    const sendEvent = (eventType: string, additionalData: Record<string, unknown> = {}) => {
+      const eventData = {
+        url: window.location.href,
+        referrer: document.referrer || '',
+        user_agent: navigator.userAgent,
+        host: 'sibichandrasekar.com',
+        event_time: new Date().toISOString(),
+        event_type: eventType,
+        ...additionalData
+      };
+
+      fetch(RAILWAY_BACKEND_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(eventData)
+      }).catch(error => {
+        console.debug('Tracking failed:', error);
+      });
+    };
+
+    // Track page view when app loads - this captures who's visiting
+    sendEvent('page_view');
+
+    // No cleanup needed since we're only tracking page views
+  }, []);
+
   return (
     <div className="min-h-screen">
       <VideoBackground />
@@ -11,8 +41,6 @@ const App: React.FC = () => {
       <div className="relative z-20">
         <Home />
       </div>
-
-
     </div>
   );
 };
