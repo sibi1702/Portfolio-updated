@@ -99,29 +99,45 @@ export default async function handler(req, res) {
 
             console.log('📤 Sending to REST URL:', topicUrl);
             console.log('📦 REST Payload:', JSON.stringify(payload, null, 2));
+            console.log('🔐 Auth header length:', auth.length);
 
-            const response = await fetch(topicUrl, {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/vnd.kafka.json.v2+json',
-                'Accept': 'application/vnd.kafka.v2+json',
-                'Authorization': `Basic ${auth}`
-              },
-              body: JSON.stringify(payload)
-            });
+            const fetchStart = Date.now();
+            const response = await Promise.race([
+              fetch(topicUrl, {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/vnd.kafka.json.v2+json',
+                  'Accept': 'application/vnd.kafka.v2+json',
+                  'Authorization': `Basic ${auth}`
+                },
+                body: JSON.stringify(payload)
+              }),
+              new Promise((_, reject) =>
+                setTimeout(() => reject(new Error('REST API timeout after 10 seconds')), 10000)
+              )
+            ]);
+            const fetchTime = Date.now() - fetchStart;
 
+            console.log(`📡 REST Response received in ${fetchTime}ms`);
             console.log('📡 REST Response status:', response.status);
+            console.log('📡 REST Response statusText:', response.statusText);
             console.log('📡 REST Response headers:', Object.fromEntries(response.headers.entries()));
 
             if (!response.ok) {
               const errorText = await response.text();
               console.error('❌ REST API error response:', errorText);
+              console.error('❌ Full response details:', {
+                status: response.status,
+                statusText: response.statusText,
+                headers: Object.fromEntries(response.headers.entries()),
+                body: errorText
+              });
               throw new Error(`REST API error: ${response.status} - ${errorText}`);
             }
 
             const result = await response.json();
             console.log('✅ REST API success:', result);
-            console.log('📩 Kafka REST send successful');
+            console.log('📩 Kafka REST send successful - MESSAGE SHOULD BE IN TOPIC NOW!');
 
           } catch (restError) {
             console.error('❌ Kafka REST failed:', restError.message);
