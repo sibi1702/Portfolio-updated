@@ -10,10 +10,22 @@ export default async function handler(req, res) {
   }
 
   if (req.method === 'GET') {
-    return res.status(200).json({ 
+    const kafkaAvailable = !!(process.env.KAFKA_REST_URL &&
+                             (process.env.KAFKA_API_KEY || process.env.KAFKA_USERNAME) &&
+                             (process.env.KAFKA_API_SECRET || process.env.KAFKA_PASSWORD));
+
+    return res.status(200).json({
       status: 'REST Track API is working',
       timestamp: new Date().toISOString(),
-      kafka_available: !!(process.env.KAFKA_REST_URL && process.env.KAFKA_API_KEY)
+      kafka_available: kafkaAvailable,
+      debug: {
+        rest_url_set: !!process.env.KAFKA_REST_URL,
+        api_key_set: !!process.env.KAFKA_API_KEY,
+        username_set: !!process.env.KAFKA_USERNAME,
+        password_set: !!process.env.KAFKA_PASSWORD,
+        secret_set: !!process.env.KAFKA_API_SECRET,
+        topic_set: !!process.env.KAFKA_TOPIC
+      }
     });
   }
 
