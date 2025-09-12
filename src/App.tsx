@@ -4,9 +4,12 @@ import VideoBackground from './components/common/VideoBackground';
 
 const App: React.FC = () => {
   useEffect(() => {
-    // Use same domain API route - no CORS issues!
-    const TRACKING_URL = '/api/track';
+    // Check if we're in production (deployed) or development
+    const isDev = process.env.NODE_ENV === 'development';
+    const baseUrl = isDev ? 'http://localhost:3000' : '';
     
+    const TRACKING_URL = `${baseUrl}/api/track`;
+
     const sendEvent = (eventType: string, additionalData: Record<string, unknown> = {}) => {
       const eventData = {
         url: window.location.href,
@@ -17,7 +20,10 @@ const App: React.FC = () => {
         event_type: eventType,
         ...additionalData
       };
-      
+
+      console.log('🚀 Sending tracking event to:', TRACKING_URL);
+      console.log('📦 Event data:', eventData);
+
       fetch(TRACKING_URL, {
         method: 'POST',
         headers: {
@@ -25,7 +31,16 @@ const App: React.FC = () => {
         },
         body: JSON.stringify(eventData)
       })
-      .then(response => response.json())
+      .then(response => {
+        console.log('📡 Response status:', response.status);
+        console.log('🔗 Response URL:', response.url);
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        return response.json();
+      })
       .then(data => {
         console.log('✅ Tracking success:', data);
         if (data.kafka_sent) {
@@ -35,13 +50,15 @@ const App: React.FC = () => {
         }
       })
       .catch(error => {
-        console.debug('❌ Tracking failed:', error);
+        console.error('❌ Tracking failed:', error);
+        console.error('🔍 Check if /api/track endpoint exists');
+        console.error('🔍 Verify file structure: /api/track.ts in project root');
       });
     };
 
     // Track page view when app loads
     sendEvent('page_view');
-    
+
   }, []);
 
   return (
