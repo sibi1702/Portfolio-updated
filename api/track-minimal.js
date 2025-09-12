@@ -50,7 +50,12 @@ export default async function handler(req, res) {
         setImmediate(async () => {
           try {
             console.log('🚀 Starting minimal Kafka operation...');
-            
+            console.log('📋 Environment check:');
+            console.log('- KAFKA_BROKERS:', process.env.KAFKA_BROKERS ? 'Set' : 'Missing');
+            console.log('- KAFKA_USERNAME:', process.env.KAFKA_USERNAME ? 'Set' : 'Missing');
+            console.log('- KAFKA_PASSWORD:', process.env.KAFKA_PASSWORD ? 'Set (length: ' + process.env.KAFKA_PASSWORD.length + ')' : 'Missing');
+            console.log('- KAFKA_TOPIC:', process.env.KAFKA_TOPIC || 'click-events (default)');
+
             // Use the most basic Kafka configuration
             const kafka = new Kafka({
               clientId: 'portfolio-minimal',
@@ -60,19 +65,32 @@ export default async function handler(req, res) {
                 mechanism: 'plain',
                 username: process.env.KAFKA_USERNAME,
                 password: process.env.KAFKA_PASSWORD,
-              }
+              },
+              // Silence the partitioner warning
+              logLevel: 1  // ERROR level only
             });
 
             const producer = kafka.producer();
-            
+
             console.log('🔌 Connecting with minimal config...');
+            const connectStart = Date.now();
             await producer.connect();
-            console.log('✅ Minimal producer connected');
+            const connectTime = Date.now() - connectStart;
+            console.log(`✅ Minimal producer connected in ${connectTime}ms`);
 
             const topic = process.env.KAFKA_TOPIC || 'click-events';
             console.log('📤 Sending to topic:', topic);
+            console.log('📦 Message payload:', {
+              key: trackingEvent.id,
+              valueLength: JSON.stringify(trackingEvent).length,
+              headers: {
+                'event-type': trackingEvent.event_type,
+                'source': 'portfolio-minimal'
+              }
+            });
 
-            await producer.send({
+            const sendStart = Date.now();
+            const result = await producer.send({
               topic: topic,
               messages: [{
                 key: trackingEvent.id,
@@ -83,15 +101,25 @@ export default async function handler(req, res) {
                 }
               }]
             });
+            const sendTime = Date.now() - sendStart;
 
-            console.log('✅ Message sent with minimal config');
-            
+            console.log(`✅ Message sent in ${sendTime}ms`);
+            console.log('📊 Send result:', result);
+
+            const disconnectStart = Date.now();
             await producer.disconnect();
-            console.log('📩 Minimal Kafka send successful');
+            const disconnectTime = Date.now() - disconnectStart;
+            console.log(`🔌 Disconnected in ${disconnectTime}ms`);
+
+            console.log('📩 Minimal Kafka send successful - COMPLETE');
 
           } catch (kafkaError) {
             console.error('❌ Minimal Kafka failed:', kafkaError.message);
+            console.error('❌ Error type:', kafkaError.constructor.name);
             console.error('❌ Full error:', kafkaError);
+            if (kafkaError.stack) {
+              console.error('❌ Stack trace:', kafkaError.stack);
+            }
           }
         });
       } else {
