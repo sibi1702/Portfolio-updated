@@ -13,6 +13,12 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
+  // Security check - only allow in development or with a secret key
+  const debugKey = req.query.key;
+  if (process.env.NODE_ENV === 'production' && debugKey !== 'debug123') {
+    return res.status(403).json({ error: 'Access denied' });
+  }
+
   // Check all Kafka-related environment variables
   const envCheck = {
     timestamp: new Date().toISOString(),
