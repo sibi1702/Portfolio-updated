@@ -12,7 +12,7 @@ const App: React.FC = () => {
         url: window.location.href,
         referrer: document.referrer || '',
         user_agent: navigator.userAgent,
-        host: window.location.hostname, // Dynamic hostname instead of hardcoded
+        host: window.location.hostname,
         event_time: new Date().toISOString(),
         event_type: eventType,
         ...additionalData
@@ -24,15 +24,24 @@ const App: React.FC = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(eventData)
-      }).catch(error => {
-        console.debug('Tracking failed:', error);
+      })
+      .then(response => response.json())
+      .then(data => {
+        console.log('✅ Tracking success:', data);
+        if (data.kafka_sent) {
+          console.log('📩 Data sent to Kafka');
+        } else {
+          console.log('⚠️ Kafka not available, data logged only');
+        }
+      })
+      .catch(error => {
+        console.debug('❌ Tracking failed:', error);
       });
     };
 
-    // Track page view when app loads - this captures who's visiting
+    // Track page view when app loads
     sendEvent('page_view');
-
-    // No cleanup needed since we're only tracking page views
+    
   }, []);
 
   return (

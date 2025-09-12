@@ -17,6 +17,7 @@
     "@types/three": "^0.175.0",
     "aos": "^2.3.4",
     "framer-motion": "^12.6.3",
+    "kafkajs": "^2.2.4",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-error-boundary": "^5.0.0",

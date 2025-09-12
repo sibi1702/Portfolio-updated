@@ -1,10 +1,57 @@
 // api/track.ts (Create this file in root/api/ folder)
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
-// Simple in-memory tracking (no Kafka for now)
+// Kafka integration
+let kafka: any = null;
+let producer: any = null;
+let isConnected = false;
+
+async function getKafkaProducer() {
+  if (!kafka) {
+    // Dynamic import to avoid issues with serverless
+    const { Kafka, Partitioners } = await import('kafkajs');
+    
+    kafka = new Kafka({
+      clientId: "vercel-tracking",
+      brokers: [process.env.KAFKA_BROKER!],
+      ssl: true,
+      sasl: {
+        mechanism: "plain",
+        username: process.env.KAFKA_KEY!,
+        password: process.env.KAFKA_SECRET!,
+      },
+      connectionTimeout: 10000,
+      authenticationTimeout: 10000,
+      retry: {
+        initialRetryTime: 100,
+        retries: 3,
+      },
+    });
+
+    producer = kafka.producer({
+      createPartitioner: Partitioners.LegacyPartitioner,
+      maxInFlightRequests: 1,
+      idempotent: false,
+    });
+  }
+
+  if (!isConnected) {
+    try {
+      await producer.connect();
+      isConnected = true;
+      console.log("✅ Kafka connected");
+    } catch (error) {
+      console.error("❌ Kafka connection failed:", error);
+      isConnected = false;
+    }
+  }
+
+  return { producer, isConnected };
+}
+
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   // Enable CORS
-  res.setHeader('Access-Control-Allow-Origin', 'https://www.sibichandrasekar.com');
+  res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
@@ -21,13 +68,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
     // Get client IP
     const clientIP = 
-      req.headers['x-forwarded-for'] as string ||
+      (req.headers['x-forwarded-for'] as string)?.split(',')[0] ||
       req.headers['x-real-ip'] as string ||
       'unknown';
 
-    // Create tracking event
+    // Create tracking event with same structure as Railway
     const trackingEvent = {
-      id: Math.random().toString(36).substring(7), // Simple ID
+      id: crypto.randomUUID(),
       timestamp: new Date().toISOString(),
       ip: clientIP,
       url: req.body.url,
@@ -35,16 +82,41 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       user_agent: req.body.user_agent,
       host: req.body.host,
       event_type: req.body.event_type,
+      event_data: {
+        element: req.body.element,
+        text: req.body.text,
+        scroll_depth: req.body.scroll_depth,
+        time_on_page: req.body.time_on_page,
+      },
+      headers: req.body.headers,
     };
 
-    // For now, just log it (you can add Kafka later)
-    console.log("📩 Tracking Event:", trackingEvent);
+    console.log("📊 Tracking Event Created:", trackingEvent);
 
-    // Return success
+    // Try to send to Kafka
+    const { producer, isConnected } = await getKafkaProducer();
+    
+    if (isConnected && producer) {
+      try {
+        await producer.send({
+          topic: process.env.KAFKA_TOPIC || "sibi_web_events_store",
+          messages: [{ value: JSON.stringify(trackingEvent) }],
+        });
+        console.log("📩 Event sent to Kafka successfully");
+      } catch (kafkaError) {
+        console.error("❌ Kafka send failed:", kafkaError);
+        // Continue anyway - don't fail the request
+      }
+    } else {
+      console.log("⚠️ Kafka not connected, event logged only");
+    }
+
+    // Always return success
     res.status(200).json({
       success: true,
       eventId: trackingEvent.id,
-      message: "Event tracked successfully"
+      message: "Event tracked successfully",
+      kafka_sent: isConnected,
     });
 
   } catch (error) {
