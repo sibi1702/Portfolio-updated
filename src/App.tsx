@@ -4,20 +4,21 @@ import VideoBackground from './components/common/VideoBackground';
 
 const App: React.FC = () => {
   useEffect(() => {
-    const RAILWAY_BACKEND_URL = 'https://function-bun-production-33d8.up.railway.app/track';
+    // Use same domain API route - no CORS issues!
+    const TRACKING_URL = '/api/track';
     
     const sendEvent = (eventType: string, additionalData: Record<string, unknown> = {}) => {
       const eventData = {
         url: window.location.href,
         referrer: document.referrer || '',
         user_agent: navigator.userAgent,
-        host: 'sibichandrasekar.com',
+        host: window.location.hostname, // Dynamic hostname instead of hardcoded
         event_time: new Date().toISOString(),
         event_type: eventType,
         ...additionalData
       };
-
-      fetch(RAILWAY_BACKEND_URL, {
+      
+      fetch(TRACKING_URL, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
