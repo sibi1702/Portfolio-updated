@@ -153,6 +153,7 @@ export default async function handler(req, res) {
           "Event processed but Kafka failed" : 
           "Event tracked and sent to Kafka successfully",
         timestamp: trackingEvent.timestamp,
+        iso_timestamp: trackingEvent.iso_timestamp,
         topic: process.env.KAFKA_TOPIC || 'sibi_web_events_store'
       };
 
