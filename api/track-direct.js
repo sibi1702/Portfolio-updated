@@ -1,4 +1,4 @@
-// Direct Kafka producer with optimized serverless configuration
+// Improved Direct Kafka producer with better error handling and debugging
 import { Kafka } from 'kafkajs';
 
 // Global producer instance for connection reuse
@@ -17,9 +17,10 @@ export default async function handler(req, res) {
 
   if (req.method === 'GET') {
     return res.status(200).json({ 
-      status: 'Direct Kafka Track API is working',
+      status: 'Improved Direct Kafka Track API is working',
       timestamp: new Date().toISOString(),
-      kafka_available: !!(process.env.KAFKA_BROKERS && process.env.KAFKA_USERNAME && process.env.KAFKA_PASSWORD)
+      kafka_available: !!(process.env.KAFKA_BROKERS && process.env.KAFKA_USERNAME && process.env.KAFKA_PASSWORD),
+      topic: process.env.KAFKA_TOPIC || 'sibi_web_events_store'
     });
   }
 
@@ -36,64 +37,98 @@ export default async function handler(req, res) {
         user_agent: req.body?.user_agent || '',
         host: req.body?.host || '',
         event_type: req.body?.event_type || 'unknown',
-        event_data: req.body?.event_data || {}
+        event_data: req.body?.event_data || {},
+        // Add explicit tracking fields
+        source: 'portfolio-improved',
+        version: '2.0'
       };
 
-      console.log("📊 Direct Kafka Event:", JSON.stringify(trackingEvent, null, 2));
+      console.log("📊 Improved Event:", JSON.stringify(trackingEvent, null, 2));
 
       // Send response immediately
       res.status(200).json({
         success: true,
         eventId: trackingEvent.id,
-        message: "Event tracked (direct Kafka mode)",
-        timestamp: trackingEvent.timestamp
+        message: "Event tracked (improved direct Kafka mode)",
+        timestamp: trackingEvent.timestamp,
+        topic: process.env.KAFKA_TOPIC || 'sibi_web_events_store'
       });
 
-      // Try direct Kafka in background with aggressive timeouts
+      // Try direct Kafka in background with better error handling
       if (process.env.KAFKA_BROKERS && process.env.KAFKA_USERNAME && process.env.KAFKA_PASSWORD) {
         setImmediate(async () => {
           try {
-            console.log('🚀 Starting direct Kafka operation...');
+            console.log('🚀 Starting improved Kafka operation...');
             
             const producer = await getOrCreateProducer();
-            
             const topic = process.env.KAFKA_TOPIC || 'sibi_web_events_store';
+            
             console.log('📤 Sending to topic:', topic);
+            console.log('🔑 Message key:', trackingEvent.id);
 
             const sendStart = Date.now();
             
-            // Use Promise.race for timeout
+            // Improved send with explicit configuration
             const result = await Promise.race([
               producer.send({
                 topic: topic,
                 messages: [{
-                  key: trackingEvent.id,
+                  // Use a more predictable key for debugging
+                  key: `portfolio_${trackingEvent.event_type}_${trackingEvent.id}`,
                   value: JSON.stringify(trackingEvent),
                   headers: {
                     'event-type': trackingEvent.event_type,
-                    'source': 'portfolio-direct',
-                    'timestamp': trackingEvent.timestamp
-                  }
+                    'source': 'portfolio-improved',
+                    'timestamp': trackingEvent.timestamp,
+                    'content-type': 'application/json',
+                    'version': '2.0'
+                  },
+                  // Optional: specify partition if needed
+                  // partition: 0
                 }]
               }),
               new Promise((_, reject) => 
-                setTimeout(() => reject(new Error('Send timeout after 5 seconds')), 5000)
+                setTimeout(() => reject(new Error('Send timeout after 8 seconds')), 8000)
               )
             ]);
             
             const sendTime = Date.now() - sendStart;
-            console.log(`✅ Message sent in ${sendTime}ms`);
-            console.log('📊 Send result:', result);
-            console.log('📩 Direct Kafka send successful - MESSAGE SHOULD BE IN TOPIC NOW!');
+            console.log(`✅ Message sent successfully in ${sendTime}ms`);
+            console.log('📊 Send result details:');
+            console.log('- Topic:', result[0].topicName);
+            console.log('- Partition:', result[0].partition);
+            console.log('- Offset:', result[0].offset);
+            console.log('- Timestamp:', result[0].timestamp);
+            console.log('🎉 SUCCESS: Message is now in Kafka topic!');
+            console.log(`🔍 To verify, check topic '${topic}' partition ${result[0].partition} at offset ${result[0].offset}`);
+
+            // Log success metrics
+            console.log('📈 Success metrics:');
+            console.log(`- Event ID: ${trackingEvent.id}`);
+            console.log(`- Topic: ${result[0].topicName}`);
+            console.log(`- Partition: ${result[0].partition}`);
+            console.log(`- Offset: ${result[0].offset}`);
+            console.log(`- Send time: ${sendTime}ms`);
 
           } catch (kafkaError) {
-            console.error('❌ Direct Kafka failed:', kafkaError.message);
-            console.error('❌ Error type:', kafkaError.constructor.name);
+            console.error('❌ Improved Kafka failed:', kafkaError.message);
+            console.error('❌ Error details:');
+            console.error('- Error type:', kafkaError.constructor.name);
+            console.error('- Error code:', kafkaError.code);
+            console.error('- Stack:', kafkaError.stack);
             
-            // Reset producer on error
+            // Log environment for debugging
+            console.error('🔍 Environment debug:');
+            console.error('- KAFKA_BROKERS:', process.env.KAFKA_BROKERS ? 'Set' : 'Missing');
+            console.error('- KAFKA_USERNAME:', process.env.KAFKA_USERNAME ? 'Set' : 'Missing');
+            console.error('- KAFKA_PASSWORD:', process.env.KAFKA_PASSWORD ? 'Set (length: ' + process.env.KAFKA_PASSWORD.length + ')' : 'Missing');
+            console.error('- KAFKA_TOPIC:', process.env.KAFKA_TOPIC || 'Using default');
+            
+            // Reset producer on error for next attempt
             if (globalProducer) {
               try {
                 await globalProducer.disconnect();
+                console.log('🔌 Producer disconnected after error');
               } catch (e) {
                 console.error('❌ Error disconnecting producer:', e.message);
               }
@@ -103,7 +138,7 @@ export default async function handler(req, res) {
           }
         });
       } else {
-        console.log('⚠️ Direct Kafka environment variables missing');
+        console.log('⚠️ Kafka environment variables missing:');
         console.log('- KAFKA_BROKERS:', process.env.KAFKA_BROKERS ? 'Set' : 'Missing');
         console.log('- KAFKA_USERNAME:', process.env.KAFKA_USERNAME ? 'Set' : 'Missing');
         console.log('- KAFKA_PASSWORD:', process.env.KAFKA_PASSWORD ? 'Set' : 'Missing');
@@ -112,11 +147,12 @@ export default async function handler(req, res) {
       return; // Response already sent
 
     } catch (error) {
-      console.error("❌ Direct tracking error:", error);
+      console.error("❌ Improved tracking error:", error);
       return res.status(500).json({
         success: false,
         error: "Failed to process tracking event",
-        message: error.message
+        message: error.message,
+        timestamp: new Date().toISOString()
       });
     }
   }
@@ -127,15 +163,21 @@ export default async function handler(req, res) {
 async function getOrCreateProducer() {
   if (globalProducer && connectionPromise) {
     console.log('🔄 Reusing existing producer connection');
-    await connectionPromise;
-    return globalProducer;
+    try {
+      await connectionPromise;
+      return globalProducer;
+    } catch (error) {
+      console.log('❌ Existing connection failed, creating new one');
+      globalProducer = null;
+      connectionPromise = null;
+    }
   }
 
-  console.log('🔄 Creating new direct Kafka producer...');
+  console.log('🔄 Creating new improved Kafka producer...');
   
-  // Optimized Kafka configuration for serverless
+  // Enhanced Kafka configuration
   const kafka = new Kafka({
-    clientId: 'portfolio-direct',
+    clientId: 'portfolio-improved-v2',
     brokers: process.env.KAFKA_BROKERS.split(','),
     ssl: true,
     sasl: {
@@ -143,42 +185,51 @@ async function getOrCreateProducer() {
       username: process.env.KAFKA_USERNAME,
       password: process.env.KAFKA_PASSWORD,
     },
-    // Aggressive timeouts for serverless
-    connectionTimeout: 3000,
-    authenticationTimeout: 3000,
-    requestTimeout: 5000,
-    // Reduce retries for faster failure
+    // Balanced timeouts for serverless
+    connectionTimeout: 5000,
+    authenticationTimeout: 5000,
+    requestTimeout: 8000,
+    // Retry configuration
     retry: {
-      initialRetryTime: 100,
-      retries: 2
-    }
+      initialRetryTime: 300,
+      retries: 3,
+      maxRetryTime: 30000,
+      factor: 2
+    },
+    // Add logging for debugging
+    logLevel: 1 // ERROR level
   });
 
   globalProducer = kafka.producer({
-    // Optimize for serverless
+    // Optimize for reliability
     maxInFlightRequests: 1,
-    idempotent: false,
-    transactionTimeout: 5000,
-    // Reduce batch settings for immediate sends
+    idempotent: true, // Enable idempotence for better reliability
+    transactionTimeout: 10000,
+    // Batch settings for immediate sends
     batch: {
       size: 1,
       lingerMs: 0
+    },
+    // Retry settings
+    retry: {
+      initialRetryTime: 100,
+      retries: 3
     }
   });
 
-  console.log('🔌 Connecting direct producer...');
+  console.log('🔌 Connecting improved producer...');
   const connectStart = Date.now();
   
   connectionPromise = Promise.race([
     globalProducer.connect(),
     new Promise((_, reject) => 
-      setTimeout(() => reject(new Error('Connection timeout after 8 seconds')), 8000)
+      setTimeout(() => reject(new Error('Connection timeout after 10 seconds')), 10000)
     )
   ]);
 
   await connectionPromise;
   const connectTime = Date.now() - connectStart;
-  console.log(`✅ Direct producer connected in ${connectTime}ms`);
+  console.log(`✅ Improved producer connected in ${connectTime}ms`);
   
   return globalProducer;
 }
