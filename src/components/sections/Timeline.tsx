@@ -24,14 +24,14 @@ const Timeline: React.FC = () => {
   const experienceData = [
     {
       id: 1,
-      role: 'Data Analyst Intern',
+      role: 'Data Engineer Intern',
       company: 'SkyIT Services | Subsidiary of GBCS Group',
       website: 'https://www.skyit.services',
       period: 'September 2024 – February 2025',
       responsibilities: [
-        'Analyzed cloud integrated proposal file workflows, leveraging performance metrics to identify a 60% reduction in manual handling and 35% faster document access through versioning and automation.',
-        'Developed dashboards in Power BI to visualize proposal submission KPIs and workflow efficiency, highlighting a 40% reduction in processing time.',
-        'Performed data validation and quality checks on proposal and user activity datasets using Excel and Python, ensuring accuracy for reporting and supporting data driven decision making.',
+        'Designed and optimized cloud-native data pipelines in AWS Glue and Lambda, automating proposal file ingestion and processing, which cut manual handling by 60% and improved document versioning/access speed by 35%.',
+        'Integrated proposal and activity datasets into AWS S3 and Redshift, enabling scalable storage and efficient analytics with Athena queries.',
+        'Implemented data validation and quality checks using Python, AWS Glue jobs, and CloudWatch alerts, ensuring accuracy and consistency for automated reporting pipelines.',
       ],
     },
     {
